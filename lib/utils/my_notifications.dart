@@ -68,7 +68,7 @@ class MyNotifications {
         morning,
         platformChannelSpecifics);
     await flutterLocalNotificationsPlugin.showDailyAtTime(
-        0, 'Good Night', 'How was your day', night, platformChannelSpecifics);
+        0, 'Good Night', 'How was your day?', night, platformChannelSpecifics);
   }
 
   Future<dynamic> request() async {

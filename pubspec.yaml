@@ -26,6 +26,10 @@ dependencies:
   shared_preferences: ^0.5.4+3
   avatar_glow: ^1.0.0
   flutter_local_notifications: ^0.8.4
+  firebase_core: ^0.4.0+9
+  firebase_analytics: ^5.0.2
+  firebase_auth: ^0.14.0+5
+  cloud_firestore: ^0.12.9+6
 
 dev_dependencies:
   flutter_test:
