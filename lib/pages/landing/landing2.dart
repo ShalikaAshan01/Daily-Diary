@@ -18,8 +18,8 @@ class Landing2 extends StatefulWidget {
 class _Landing2State extends State<Landing2> {
   Color _nextColor = Colors.white54;
   IconData _fbIcon = FontAwesomeIcons.facebookF;
-  IconData _googleIcon = FontAwesomeIcons.google;
   CommonWidgets commonWidgets = CommonWidgets();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +60,7 @@ class _Landing2State extends State<Landing2> {
               Container(
                 padding: EdgeInsets.fromLTRB(25, 8, 0, 0),
                 child: Text(
-                  "Account Login",
+                  !isLoading?"Account Login":"Please wait...",
                   style: TextStyle(
                       fontSize: 54,
                       color: Colors.white30,
@@ -72,17 +72,27 @@ class _Landing2State extends State<Landing2> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(14.0),
                 child: RaisedButton.icon(
-                  onPressed: () async {await _googleSignIn();},
+                  onPressed: () async {
+                    if(!isLoading){
+                      await _googleSignIn();
+                    }
+                  },
                   icon: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Image(
+                    child: !isLoading?Image(
                       width: 25,
                       image: AssetImage("assets/imgs/google.png"),
-                    ),
+                    ):
+                        Container(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor)),
+                        )
+                    ,
                   ),
                   label: Padding(
                     padding: const EdgeInsets.only(top:20.0,bottom: 20),
-                    child: Text("Sign in with Google",style: TextStyle(fontSize: 18,color: Colors.grey),),
+                    child: Text(!isLoading?"Sign in with Google":"Loading...",style: TextStyle(fontSize: 18,color: Colors.grey),),
                   ),
                   color: Colors.white,
                   elevation: 10,
@@ -93,15 +103,23 @@ class _Landing2State extends State<Landing2> {
                 padding: const EdgeInsets.all(14.0),
                 child: RaisedButton.icon(
                   onPressed: () async{
-                    await _facebookSignIn();
+                    if(!isLoading){
+                      await _facebookSignIn();
+                    }
                   },
                   icon: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Icon(_fbIcon,size: 22,),
+                    child: !isLoading?Icon(_fbIcon,size: 22,):
+                    Container(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
+                    )
+                    ,
                   ),
                   label: Padding(
                     padding: const EdgeInsets.only(top:20.0,bottom: 20),
-                    child: Text("Sign in with Facebook",style: TextStyle(fontSize: 18),),
+                    child: Text(!isLoading?"Sign in with Facebook":"Loading...",style: TextStyle(fontSize: 18),),
                   ),
                   color: Color(0xFF4267b2),
                   elevation: 10,
@@ -142,11 +160,13 @@ class _Landing2State extends State<Landing2> {
   }
 
   Future<void> _googleSignIn() async{
+    setIsLoading(true);
     final GoogleSignIn googleSignIn = new GoogleSignIn();
     AuthCredential authCredential = await getSignedInGoogleAccount(googleSignIn);
     FirebaseUser user = await signIn(authCredential);
     UserControl userControl = UserControl();
     String name = await userControl.getName();
+    setIsLoading(false);
     if(user!=null){
       Navigator.pushReplacement(
           context, commonWidgets.slideUpNavigation(Landing3(name: name,)));
@@ -154,13 +174,20 @@ class _Landing2State extends State<Landing2> {
   }
 
   Future<void> _facebookSignIn()async{
+    setIsLoading(true);
     AuthCredential authCredential = await getSignedInFacebook();
     FirebaseUser user = await signIn(authCredential);
     UserControl userControl = UserControl();
     String name = await userControl.getName();
+    setIsLoading(false);
     if(user!=null){
       Navigator.pushReplacement(
           context, commonWidgets.slideUpNavigation(Landing3(name: name,)));
     }
+  }
+  setIsLoading(bool value){
+    setState(() {
+      isLoading = value;
+    });
   }
 }
