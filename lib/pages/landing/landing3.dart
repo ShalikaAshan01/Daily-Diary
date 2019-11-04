@@ -163,7 +163,6 @@ class _Landing3State extends State<Landing3> {
                     color: Colors.white54,
                   ),
                   onPressed: () {
-                    Navigator.pop(context);
                   },
                 ),
                 Spacer(),
