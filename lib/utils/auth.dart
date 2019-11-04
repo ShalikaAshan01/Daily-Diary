@@ -21,10 +21,6 @@ Future<AuthCredential> getSignedInFacebook() async {
   final FacebookLogin facebookLogin = FacebookLogin();
   final result = await facebookLogin.logIn(['email']);
 
-  print("++++++++++++++++++++++++++++");
-  print(result.status);
-  print("++++++++++++++++++++++++++++");
-
   final AuthCredential authCredential =
       FacebookAuthProvider.getCredential(accessToken: result.accessToken.token);
   return authCredential;
@@ -36,4 +32,8 @@ Future<FirebaseUser> signIn(AuthCredential credential) async {
   final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
   await userControl.onSignIn(user.uid, user.displayName);
   return user;
+}
+Future<FirebaseUser> getCurrentUser() async{
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  return await _auth.currentUser();
 }

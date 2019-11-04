@@ -30,11 +30,6 @@ class _HomeState extends State<Home>{
       body: Container(
         height: double.maxFinite,
         width: double.maxFinite,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [_primary,_accent],
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft)),
         child: PageView.builder(
           controller: ctrl,
           onPageChanged: (value){

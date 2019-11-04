@@ -67,8 +67,10 @@ class _Landing4State extends State<Landing4> {
                   myNotification
                       .displayNotification("Hey,Welcome to Daily Diary");
                   await myNotification.dailyNotification();
-                  saveReminder(true).then((_) => Navigator.pushReplacement(
-                      context, commonWidgets.slideUpNavigation(Home())));
+                  await saveReminder(true);
+                  Navigator.of(context).popUntil((route) => route.isFirst);
+                  Navigator.pushReplacement(
+                      context, commonWidgets.slideUpNavigation(Home()));
                 },
                 elevation: 20,
                 color: Colors.white,
@@ -90,6 +92,7 @@ class _Landing4State extends State<Landing4> {
                 onTap: () {
                   setState(() {
                     CommonWidgets commonWidgets = CommonWidgets();
+                    Navigator.of(context).popUntil((route) => route.isFirst);
                     saveReminder(false).then((_) => Navigator.pushReplacement(
                         context, commonWidgets.slideUpNavigation(Home())));
                   });

@@ -4,6 +4,8 @@ import 'package:daily_diary/pages/landing/landing2.dart';
 import 'package:daily_diary/pages/landing/landing3.dart';
 import 'package:daily_diary/pages/landing/landing4.dart';
 import 'package:daily_diary/themes/custom_theme.dart';
+import 'package:daily_diary/utils/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -22,7 +24,7 @@ class MyApp extends StatelessWidget{
     return MaterialApp(
       initialRoute: '/',
       routes: {
-      '/':(context)=>Landing1(),
+        '/':(context)=>SplashScreen(),
         '/landing1':(context)=>Landing1(),
         '/landing2':(context)=>Landing2(),
         '/landing3':(context)=>Landing3(),
@@ -30,6 +32,23 @@ class MyApp extends StatelessWidget{
         '/home':(context)=>Home(),
       },
       theme: CustomTheme.of(context),
+    );
+  }
+
+}
+
+class SplashScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    getCurrentUser().then((FirebaseUser user){
+      if(user != null){
+        Navigator.pushReplacementNamed(context, "/home");
+      }else{
+        Navigator.pushReplacementNamed(context, "/landing1");
+      }
+    });
+    //TODO:add loading
+    return Scaffold(
     );
   }
 
