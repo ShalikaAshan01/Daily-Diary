@@ -2,8 +2,10 @@ import 'package:avatar_glow/avatar_glow.dart';
 import 'package:daily_diary/pages/landing/landing3.dart';
 import 'package:daily_diary/widgets/common_widgets.dart';
 import 'package:daily_diary/widgets/logo.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Landing2 extends StatefulWidget {
   @override
@@ -11,9 +13,9 @@ class Landing2 extends StatefulWidget {
 }
 
 class _Landing2State extends State<Landing2> {
-  final _formKey = GlobalKey<FormState>();
-  TextEditingController _textEditingController = TextEditingController();
   Color _nextColor = Colors.white54;
+  IconData _fbIcon = FontAwesomeIcons.facebookF;
+  IconData _googleIcon = FontAwesomeIcons.google;
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +33,6 @@ class _Landing2State extends State<Landing2> {
                 colors: [_accent, _primary],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomRight)),
-        child: Form(
-          key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -57,48 +57,58 @@ class _Landing2State extends State<Landing2> {
               Container(
                 padding: EdgeInsets.fromLTRB(25, 8, 0, 0),
                 child: Text(
-                  "Let me ask some stuff,",
+                  "Account Login",
                   style: TextStyle(
-                      fontSize: 32,
-                      color: Colors.white,
+                      fontSize: 54,
+                      color: Colors.white30,
                       fontWeight: FontWeight.normal),
                 ),
               ),
-              Container(
-                padding: EdgeInsets.fromLTRB(25, 20, 0, 0),
-                child: Text(
-                  "What is your name?",
-                  style: TextStyle(
-                      fontSize: 25,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
               Spacer(),
-              Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: TextFormField(
-                  validator: (value) {
-                    return value.isEmpty ? "Please enter your name" : null;
-                  },
-                  controller: _textEditingController,
-                  decoration: InputDecoration(
-                    labelText: "Your Name",
-                    labelStyle: Theme.of(context).textTheme.body2,
-                    border: InputBorder.none,
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(14.0),
+                child: RaisedButton.icon(
+                  onPressed: () {_googleSignIn();},
+                  icon: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image(
+                      width: 25,
+                      image: AssetImage("assets/imgs/google.png"),
+                    ),
                   ),
-                  style: TextStyle(color: Colors.white, fontSize: 26),
-                  onChanged: (value) {
-                    setState(() {
-                      if (value.length > 0) {
-                        _nextColor = Colors.white;
-                      } else {
-                        _nextColor = Colors.white54;
-                      }
-                    });
-                  },
+                  label: Padding(
+                    padding: const EdgeInsets.only(top:20.0,bottom: 20),
+                    child: Text("Sign in with Google",style: TextStyle(fontSize: 18,color: Colors.grey),),
+                  ),
+                  color: Colors.white,
+                  elevation: 10,
                 ),
               ),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(14.0),
+                child: RaisedButton.icon(
+                  onPressed: () {
+
+                  },
+                  icon: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(_fbIcon,size: 22,),
+                  ),
+                  label: Padding(
+                    padding: const EdgeInsets.only(top:20.0,bottom: 20),
+                    child: Text("Sign in with Facebook",style: TextStyle(fontSize: 18),),
+                  ),
+                  color: Color(0xFF4267b2),
+                  elevation: 10,
+                ),
+              ),
+              //TODO:add privacy policy
+              Container(
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                      "By clicking the above buttons, you agree to the our terms and conditions")),
               Spacer(),
               Container(
                   child: Row(
@@ -118,24 +128,17 @@ class _Landing2State extends State<Landing2> {
                       Icons.arrow_forward_ios,
                       color: _nextColor,
                     ),
-                    onPressed: () {
-                      setState(() {
-                        if (_formKey.currentState.validate()) {
-                          Navigator.push(
-                              context,
-                              commonWidgets.slideUpNavigation(Landing3(
-                                name: _textEditingController.text,
-                              )));
-                        }
-                      });
-                    },
+                    onPressed: () {},
                   ),
                 ],
               ))
             ],
           ),
-        ),
       ),
     );
+  }
+
+  void _googleSignIn() {
+
   }
 }
