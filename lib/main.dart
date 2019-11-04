@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget{
     return MaterialApp(
       initialRoute: '/',
       routes: {
-      '/':(context)=>Landing2(),
+      '/':(context)=>Landing1(),
         '/landing1':(context)=>Landing1(),
         '/landing2':(context)=>Landing2(),
         '/landing3':(context)=>Landing3(),

@@ -1,4 +1,5 @@
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:daily_diary/controllers/user_control.dart';
 import 'package:daily_diary/pages/landing/landing3.dart';
 import 'package:daily_diary/utils/auth.dart';
 import 'package:daily_diary/widgets/common_widgets.dart';
@@ -144,13 +145,22 @@ class _Landing2State extends State<Landing2> {
     final GoogleSignIn googleSignIn = new GoogleSignIn();
     AuthCredential authCredential = await getSignedInGoogleAccount(googleSignIn);
     FirebaseUser user = await signIn(authCredential);
+    UserControl userControl = UserControl();
+    String name = await userControl.getName();
     if(user!=null){
       Navigator.pushReplacement(
-          context, commonWidgets.slideUpNavigation(Landing3()));
+          context, commonWidgets.slideUpNavigation(Landing3(name: name,)));
     }
   }
 
-  Future<void> _facebookSignIn(){
-
+  Future<void> _facebookSignIn()async{
+    AuthCredential authCredential = await getSignedInFacebook();
+    FirebaseUser user = await signIn(authCredential);
+    UserControl userControl = UserControl();
+    String name = await userControl.getName();
+    if(user!=null){
+      Navigator.pushReplacement(
+          context, commonWidgets.slideUpNavigation(Landing3(name: name,)));
+    }
   }
 }

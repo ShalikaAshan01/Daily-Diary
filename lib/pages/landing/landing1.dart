@@ -126,14 +126,6 @@ class _Landing1State extends State<Landing1>
           SizedBox(
             height: 50.0,
           ),
-          DelayedAnimation(
-            child: Text(
-              "I Already have An Account".toUpperCase(),
-              style: TextStyle(
-                  fontSize: 20.0, fontWeight: FontWeight.bold, color: color),
-            ),
-            delay: delayedAmount + 5000,
-          ),
         ],
       ),
     )

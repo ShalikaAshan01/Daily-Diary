@@ -67,7 +67,7 @@ class _Landing4State extends State<Landing4> {
                   myNotification
                       .displayNotification("Hey,Welcome to Daily Diary");
                   await myNotification.dailyNotification();
-                  saveReminder(true).then((_) => Navigator.push(
+                  saveReminder(true).then((_) => Navigator.pushReplacement(
                       context, commonWidgets.slideUpNavigation(Home())));
                 },
                 elevation: 20,
