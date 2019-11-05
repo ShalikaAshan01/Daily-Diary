@@ -69,6 +69,7 @@ class _Landing4State extends State<Landing4> {
                   await myNotification.dailyNotification();
                   await saveReminder(true);
                   Navigator.of(context).popUntil((route) => route.isFirst);
+                  //TODO:Notifications not workings
                   Navigator.pushReplacement(
                       context, commonWidgets.slideUpNavigation(Home()));
                 },
