@@ -426,7 +426,17 @@ class _AddStories2State extends State<AddStories2> {
       isSaving = true;
     });
     DateTime date = widget.date;
-    String storyDate = "${date.day}-${date.month}-${date.year}";
+
+    String day = date.day.toString();
+    if(date.day<10){
+      day = "0${date.day}";
+    }
+    String month = date.month.toString();
+    if(date.month<10){
+      month = "0${date.month}";
+    }
+
+    String storyDate = "$day-$month-${date.year}";
     FirebaseUser user = await UserControl().getCurrentUser();
 
     Story _story = Story(storyDate, _storyEditingController.text, user.uid,
