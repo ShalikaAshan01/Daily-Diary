@@ -53,6 +53,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             Padding(
               padding: EdgeInsets.only(top: size.height * 0.08, left: 25),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   DelayedAnimation(
                       delay: delayedAmount,
@@ -116,7 +117,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               context,
               PageRouteBuilder(
                 pageBuilder: (c, a1, a2) => AddStories(
-                  greeting: text,date: DateTime.now().subtract(Duration(days: 5)),
+                  greeting: text,date: DateTime.now(),
                 ),
                 transitionsBuilder: (c, anim, a2, child) =>
                     FadeTransition(opacity: anim, child: child),

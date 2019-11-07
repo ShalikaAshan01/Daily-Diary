@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserControl {
@@ -20,5 +21,9 @@ class UserControl {
   Future<String> getName() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString("name");
+  }
+
+  Future<FirebaseUser> getCurrentUser(){
+    return FirebaseAuth.instance.currentUser();
   }
 }
