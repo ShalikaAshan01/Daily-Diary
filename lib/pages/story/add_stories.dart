@@ -7,7 +7,6 @@ import 'package:daily_diary/widgets/logo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AddStories extends StatefulWidget {
   final String greeting;
@@ -40,13 +39,12 @@ class _AddStoriesState extends State<AddStories> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      _selectedDate = widget.date;
-    });
+    _selectedDate = widget.date;
     UserControl().getName().then((String name) {
-      setState(() {
-        _name = name;
-      });
+      if (mounted)
+        setState(() {
+          _name = name;
+        });
     });
   }
 

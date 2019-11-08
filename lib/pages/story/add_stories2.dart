@@ -4,6 +4,7 @@ import 'package:daily_diary/controllers/story_controller.dart';
 import 'package:daily_diary/controllers/user_control.dart';
 import 'package:daily_diary/model/story.dart';
 import 'package:daily_diary/widgets/logo.dart';
+import 'package:daily_diary/widgets/my_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,26 @@ class _AddStories2State extends State<AddStories2> {
   String _activity = "OTHER";
   bool isSaving = false;
 
-  //todo:add alert
+  Future<bool> _onWillPop() {
+    return showDialog(
+        context: context,
+        builder: (context) =>
+            MyAlert(
+              title: "Are you sure?",
+              content: "This story will not be saved and you cannot get it back!",
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: Text('CANCEL'),
+                ),
+                new FlatButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: Text('OK'),
+                ),
+              ],
+            )
+    ) ?? false;
+  }
 
   @override
   void dispose() {
@@ -54,27 +74,36 @@ class _AddStories2State extends State<AddStories2> {
   Widget build(BuildContext context) {
     Color _primary = Theme.of(context).primaryColor;
     Color _accent = Theme.of(context).accentColor;
-    return Scaffold(
-        body: Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [_primary, _accent],
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft)),
-      child: PageView(
-        physics: NeverScrollableScrollPhysics(),
-        controller: _controller,
-        children: <Widget>[
-          _firstPage(),
-          _secondPage(),
-          _thirdPage(),
-          _fourthPage(),
-          _fifthPage()
-        ],
-      ),
-    ));
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+          body: Container(
+            width: MediaQuery
+                .of(context)
+                .size
+                .width,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [_primary, _accent],
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft)),
+            child: PageView(
+              physics: NeverScrollableScrollPhysics(),
+              controller: _controller,
+              children: <Widget>[
+                _firstPage(),
+                _secondPage(),
+                _thirdPage(),
+                _fourthPage(),
+                _fifthPage()
+              ],
+            ),
+          )),
+    );
   }
 
   Widget _firstPage() {
@@ -448,8 +477,22 @@ class _AddStories2State extends State<AddStories2> {
       isSaving = false;
     });
     if (reference == null) {
-      //todo:add alert meesage
-      debugPrint("oops");
+      showDialog(
+          context: context,
+          builder: (_) {
+            return MyAlert(
+              title: "Whoops!",
+              actions: <Widget>[
+                FlatButton(
+                  child: Text("ok"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+              content: "Something went wrong",
+            );
+          });
     } else {
       Navigator.pop(context);
     }

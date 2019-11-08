@@ -7,11 +7,19 @@ class Story {
   int _feeling;
   String _activity;
   String _date;
+  String _image;
 
   Story(this._date, this._story, this._userId, this._feeling, this._activity);
 
   set story(String value) {
     _story = value;
+  }
+
+
+  String get image => _image;
+
+  set image(String value) {
+    _image = value;
   }
 
   String get activity => _activity;
