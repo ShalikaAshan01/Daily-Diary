@@ -6,8 +6,9 @@ class Story {
   String _userId;
   int _feeling;
   String _activity;
-  String _date;
+  DateTime _date;
   String _image;
+  bool _favourite;
 
   Story(this._date, this._story, this._userId, this._feeling, this._activity);
 
@@ -20,6 +21,13 @@ class Story {
 
   set image(String value) {
     _image = value;
+  }
+
+
+  bool get favourite => _favourite;
+
+  set favourite(bool value) {
+    _favourite = value;
   }
 
   String get activity => _activity;
@@ -58,7 +66,7 @@ class Story {
 
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
-
+    map["favourite"] = _favourite;
     map['date'] = _date;
     map['story'] = _story;
     map['createdAt'] = _createdAt;
@@ -70,18 +78,22 @@ class Story {
   }
 
   Story.fromMapObject(Map<String, dynamic> map) {
-    this._date = map['date'];
+    this._date = map['date'].toDate();
     this._story = map['story'];
-    this._createdAt = map['createdAt'];
-    this.updatedAt = map['updatedAt'];
+    this._createdAt = map['createdAt'].toDate();
+    this.updatedAt = map['updatedAt'].toDate();
     this._userId = map['userId'];
     this._activity = map['activity'];
     this._feeling = map['feelings'];
+    this._image = map['image'] != null
+        ? map['image']
+        : "https://images.pexels.com/photos/1633413/pexels-photo-1633413.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
+    this.favourite = map['favourite'];
   }
 
-  String get date => _date;
+  DateTime get date => _date;
 
-  set date(String value) {
+  set date(DateTime value) {
     _date = value;
   }
 }

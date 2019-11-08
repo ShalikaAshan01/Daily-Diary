@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:daily_diary/model/story.dart';
-import 'package:flutter/cupertino.dart';
 
 class StoryController {
   final String _mainCollection = "stories";
@@ -20,5 +19,21 @@ class StoryController {
       await documentSnapshot.reference.updateData(story.toMap());
       return documentSnapshot.reference;
     }
+  }
+
+  Stream<QuerySnapshot> getStories(String userId) {
+    return Firestore.instance
+        .collection(_mainCollection)
+        .where('userId', isEqualTo: userId)
+        .orderBy("date", descending: true)
+        .snapshots();
+  }
+
+  void updateFavouriteItem(bool value, String id) async {
+    await Firestore.instance.collection(_mainCollection)
+        .document(id)
+        .updateData({
+      "favourite": value
+    });
   }
 }

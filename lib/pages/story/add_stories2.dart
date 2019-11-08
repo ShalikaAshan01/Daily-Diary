@@ -454,24 +454,13 @@ class _AddStories2State extends State<AddStories2> {
     setState(() {
       isSaving = true;
     });
-    DateTime date = widget.date;
-
-    String day = date.day.toString();
-    if(date.day<10){
-      day = "0${date.day}";
-    }
-    String month = date.month.toString();
-    if(date.month<10){
-      month = "0${date.month}";
-    }
-
-    String storyDate = "$day-$month-${date.year}";
     FirebaseUser user = await UserControl().getCurrentUser();
 
-    Story _story = Story(storyDate, _storyEditingController.text, user.uid,
+    Story _story = Story(widget.date, _storyEditingController.text, user.uid,
         _value.floor(), _activity);
     _story.createdAt = DateTime.now();
     _story.updatedAt = DateTime.now();
+    _story.favourite = false;
     DocumentReference reference = await StoryController().saveStory(_story);
     setState(() {
       isSaving = false;
