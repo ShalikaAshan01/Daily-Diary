@@ -2,6 +2,7 @@ import 'package:daily_diary/controllers/story_controller.dart';
 import 'package:daily_diary/controllers/user_control.dart';
 import 'package:daily_diary/model/story.dart';
 import 'package:daily_diary/pages/story/add_stories.dart';
+import 'package:daily_diary/pages/story/show_story.dart';
 import 'package:daily_diary/widgets/delayed_animation.dart';
 import 'package:daily_diary/widgets/my_alert.dart';
 import 'package:daily_diary/widgets/name.dart';
@@ -48,8 +49,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _addStoryDate = DateTime.now();
-    pageController();
-    animationControl();
+    _pageController();
+    _animationControl();
     _offsetFloat = Tween<Offset>(begin: Offset(0.25, 0.0), end: Offset.zero)
         .animate(_controller);
     _controller.forward();
@@ -89,7 +90,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    greeting();
+    _greeting();
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: _onWillPop,
@@ -252,75 +253,88 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     final String _month = _months[storyDate.month - 1].substring(0, 3);
     final int _year = storyDate.year;
 
-    return AnimatedContainer(
-        duration: Duration(milliseconds: 500),
-        margin: EdgeInsets.only(top: top, bottom: bottom, right: 10, left: 10),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: NetworkImage(_story.image),
-            ),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black87,
-                  blurRadius: blur,
-                  offset: Offset(offset, offset))
-            ]),
-        child: Padding(
-          padding: EdgeInsets.all(12.0),
-          child: Column(
-            children: <Widget>[
-              Row(
+    return Hero(
+      tag: _story.id,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(
+              builder: (context) => ShowStory(story: _story,)));
+        },
+        onDoubleTap: () {
+          StoryController().updateFavouriteItem(!_story.favourite, _story.id);
+        },
+        child: AnimatedContainer(
+            duration: Duration(milliseconds: 500),
+            margin: EdgeInsets.only(
+                top: top, bottom: bottom, right: 10, left: 10),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(_story.image),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black87,
+                      blurRadius: blur,
+                      offset: Offset(offset, offset))
+                ]),
+            child: Container(
+              padding: EdgeInsets.all(12.0),
+              child: Stack(
                 children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Container(
-                        child: Text(
-                          "$_date",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Container(
-                        child: Text("$_month"),
-                      ),
-                      Container(
-                        child: Text(
-                          "$_year",
-                          style: TextStyle(color: Colors.white54),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Spacer(),
+                  _feelingsWidget(_story.feeling),
                   Container(
-                    child: IconButton(
-                      icon: Icon(
-                        _story.favourite ? Icons.favorite : Icons
-                            .favorite_border,
-                      ),
-                      color: _story.favourite ? Colors.redAccent : Colors
-                          .white54,
-                      splashColor: Colors.redAccent,
-                      onPressed: () {
-                        StoryController().updateFavouriteItem(
-                            !_story.favourite, _story.id);
-                      },
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          child: Stack(
+                            children: <Widget>[
+                              Container(
+                                child: Text(
+                                  "$_date",
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(top: 20),
+                                child: Text("$_month"),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(top: 35),
+                                child: Text(
+                                  "$_year",
+                                  style: TextStyle(color: Colors.white54),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Spacer(),
+                        IconButton(
+                          icon: Icon(
+                            _story.favourite ? Icons.favorite : Icons
+                                .favorite_border,
+                          ),
+                          color: _story.favourite ? Colors.redAccent : Colors
+                              .white54,
+                          splashColor: Colors.redAccent,
+                          onPressed: () {
+                            StoryController().updateFavouriteItem(
+                                !_story.favourite, _story.id);
+                          },
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-              Spacer(),
-              feelingsWidget(_story.feeling)
-            ],
-          ),
-        ));
+            )),
+      ),
+    );
   }
 
-  Widget feelingsWidget(int val) {
+  Widget _feelingsWidget(int val) {
     List<IconData> icons = [
       FontAwesomeIcons.tired,
       FontAwesomeIcons.frown,
@@ -336,14 +350,14 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     );
   }
 
-  void pageController() {
+  void _pageController() {
     _ctrl = PageController(
       initialPage: _currentPage,
       viewportFraction: 0.8,
     );
   }
 
-  void animationControl() {
+  void _animationControl() {
     _controller = AnimationController(
         vsync: this,
         duration: Duration(
@@ -354,7 +368,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       });
   }
 
-  void greeting() {
+  void _greeting() {
     int hour = DateTime.now().hour;
     if (hour > 2 && hour < 12) {
       setState(() {
