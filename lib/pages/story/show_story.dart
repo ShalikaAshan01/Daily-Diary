@@ -1,4 +1,7 @@
+import 'package:daily_diary/controllers/story_controller.dart';
 import 'package:daily_diary/model/story.dart';
+import 'package:daily_diary/pages/story/edit_story.dart';
+import 'package:daily_diary/widgets/my_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -35,9 +38,11 @@ class _ShowStoryState extends State<ShowStory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: _color1,
       body: Stack(
         children: <Widget>[
-          _buildFeeling(),
+          Hero(
+              tag: "feeling", child: _buildFeeling()),
           _buildBody(),
         ],
       ),
@@ -56,10 +61,10 @@ class _ShowStoryState extends State<ShowStory> {
           Hero(
             tag: widget.story.id,
             flightShuttleBuilder: (BuildContext flightContext,
-                    Animation<double> animation,
-                    HeroFlightDirection flightDirection,
-                    BuildContext fromHeroContext,
-                    BuildContext toHeroContext) =>
+                Animation<double> animation,
+                HeroFlightDirection flightDirection,
+                BuildContext fromHeroContext,
+                BuildContext toHeroContext) =>
                 Material(
                     color: Colors.transparent, child: toHeroContext.widget),
             child: Container(
@@ -114,15 +119,15 @@ class _ShowStoryState extends State<ShowStory> {
                               duration: Duration(milliseconds: 2000),
                               child: showMenu
                                   ? Icon(
-                                      FontAwesomeIcons.times,
-                                      size: 25,
-                                      color: Colors.white,
-                                    )
+                                FontAwesomeIcons.times,
+                                size: 25,
+                                color: Colors.white,
+                              )
                                   : Icon(
-                                      FontAwesomeIcons.ellipsisV,
-                                      size: 25,
-                                      color: Colors.white,
-                                    ),
+                                FontAwesomeIcons.ellipsisV,
+                                size: 25,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
@@ -130,63 +135,91 @@ class _ShowStoryState extends State<ShowStory> {
                     ],
                   ),
                   _menuItem(Icons.edit, () {
-                    //todo:create if(showMnu)
+                    if (showMenu)
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) =>
+                              EditStory(story: widget.story,)));
                   }),
                   _menuItem(Icons.delete, () {
-                    //todo:create if(showMnu)
+                    if (showMenu) {
+                      showDialog(
+                          context: context,
+                          builder: (_) {
+                            return MyAlert(
+                              title: "Are you sure?",
+                              content: "Are you certain you want to delete this story? This action is irreversible and the story will be lost forever!",
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: Text("Yes"),
+                                  onPressed: () async {
+                                    await StoryController().deleteStory(
+                                        widget.story.id);
+                                    Navigator.of(context).popUntil((
+                                        route) => route.isFirst);
+                                  },
+                                ),
+                                FlatButton(
+                                  child: Text("No"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+
+                              ],
+                            );
+                          }
+                      );
+                    }
                   }),
                 ],
               ),
             ),
           ),
-          Container(
-            padding: EdgeInsets.only(left: 22, top: 25),
-            child: Text(
-              "${date.day}, ${_months[date.month - 1]} ${date.year}",
-              style: TextStyle(color: Colors.white24, fontSize: 22),
+          Hero(
+            tag: "title",
+            child: Container(
+              padding: EdgeInsets.only(left: 22, top: 25),
+              child: Text(
+                "${date.day}, ${_months[date.month - 1]} ${date.year}",
+                style: TextStyle(color: Colors.white24,
+                    fontSize: 22,
+                    decoration: TextDecoration.none),
+              ),
             ),
           ),
-          Container(
-            padding: EdgeInsets.only(left: 25, top: 25),
-            child: Row(
-              children: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    //todo: implement method
-                  },
-                  child: Card(
+          Hero(
+            tag: "cards",
+            child: Container(
+              padding: EdgeInsets.only(left: 25, top: 25),
+              child: Row(
+                children: <Widget>[
+                  Card(
                       elevation: 5,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                       color: _color3,
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
+                      child: Container(
+                        width: 60,
+                        height: 60,
                         child: Icon(
-                          FontAwesomeIcons.smile,
+                          _work(widget.story.activity),
                           size: 30,
-                          color: Colors.white70,
+                          color: Colors.white,
                         ),
                       )),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    //todo: implement method
-                  },
-                  child: Card(
+                  Card(
                       elevation: 5,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                       color: _color3,
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Icon(
-                          FontAwesomeIcons.smile,
-                          size: 30,
-                          color: Colors.white70,
-                        ),
-                      )),
-                ),
-              ],
+                      child: Container(
+                        width: 60,
+                        height: 60,
+                        child: _feelingsWidget(
+                            widget.story.feeling, 30, Colors.white),
+                      ))
+                ],
+              ),
             ),
           ),
           GestureDetector(
@@ -208,6 +241,29 @@ class _ShowStoryState extends State<ShowStory> {
     );
   }
 
+  IconData _work(String _activity) {
+    switch (_activity.toLowerCase()) {
+      case "work":
+        return FontAwesomeIcons.building;
+      case "family":
+        return FontAwesomeIcons.home;
+      case "education":
+        return FontAwesomeIcons.graduationCap;
+      case "relationship":
+        return FontAwesomeIcons.handsHelping;
+      case "friends":
+        return FontAwesomeIcons.users;
+      case "traveling":
+        return FontAwesomeIcons.locationArrow;
+      case "gaming":
+        return FontAwesomeIcons.gamepad;
+      case "sports":
+        return FontAwesomeIcons.running;
+      default:
+        return FontAwesomeIcons.boxOpen;
+    }
+  }
+
   Widget _menuItem(IconData _icon, onTap) {
     return AnimatedOpacity(
       duration: Duration(milliseconds: 1000),
@@ -218,7 +274,7 @@ class _ShowStoryState extends State<ShowStory> {
           onTap: onTap,
           child: Card(
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
             elevation: 10,
             color: _color3,
             child: Padding(
@@ -242,11 +298,11 @@ class _ShowStoryState extends State<ShowStory> {
       color: _color1,
       alignment: Alignment.centerRight,
       padding: EdgeInsets.only(right: 18),
-      child: _feelingsWidget(widget.story.feeling),
+      child: _feelingsWidget(widget.story.feeling, 100, Colors.white54),
     );
   }
 
-  Widget _feelingsWidget(int val) {
+  Widget _feelingsWidget(int val, double size, Color color) {
     List<IconData> icons = [
       FontAwesomeIcons.tired,
       FontAwesomeIcons.frown,
@@ -255,11 +311,10 @@ class _ShowStoryState extends State<ShowStory> {
     ];
     if (val == 4) val = 3;
     return Container(
-      padding: EdgeInsets.only(bottom: 5, right: 5),
       child: Icon(
         icons[val],
-        color: Colors.white24,
-        size: 100,
+        color: color,
+        size: size,
       ),
     );
   }

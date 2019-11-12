@@ -36,4 +36,15 @@ class StoryController {
       "favourite": value
     });
   }
+
+  Future<void> deleteStory(String id) async {
+    return await Firestore.instance.collection(_mainCollection)
+        .document(id)
+        .delete();
+  }
+
+  Future<void> updateStory(Story _story, String id) async {
+    return await Firestore.instance.collection(_mainCollection).document(id)
+        .updateData(_story.toMap());
+  }
 }
