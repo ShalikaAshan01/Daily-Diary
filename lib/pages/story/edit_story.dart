@@ -199,7 +199,7 @@ class _EditStoryState extends State<EditStory> {
                         isSaving ? "Updating..." : "Update Story".toUpperCase(),
                         style: TextStyle(fontSize: 16)),
                   ),
-                  elevation: 12,
+                  elevation: 4,
                   color: Colors.white,
                 ),
               )
