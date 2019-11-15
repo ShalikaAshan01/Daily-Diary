@@ -1,5 +1,5 @@
 import 'package:avatar_glow/avatar_glow.dart';
-import 'package:daily_diary/pages/home.dart';
+import 'package:daily_diary/pages/root.dart';
 import 'package:daily_diary/utils/my_notifications.dart';
 import 'package:daily_diary/widgets/common_widgets.dart';
 import 'package:daily_diary/widgets/logo.dart';
@@ -71,7 +71,7 @@ class _Landing4State extends State<Landing4> {
                   Navigator.of(context).popUntil((route) => route.isFirst);
                   //TODO:Notifications not workings
                   Navigator.pushReplacement(
-                      context, commonWidgets.slideUpNavigation(Home()));
+                      context, commonWidgets.slideUpNavigation(root()));
                 },
                 elevation: 20,
                 color: Colors.white,
@@ -95,7 +95,7 @@ class _Landing4State extends State<Landing4> {
                     CommonWidgets commonWidgets = CommonWidgets();
                     Navigator.of(context).popUntil((route) => route.isFirst);
                     saveReminder(false).then((_) => Navigator.pushReplacement(
-                        context, commonWidgets.slideUpNavigation(Home())));
+                        context, commonWidgets.slideUpNavigation(root())));
                   });
                 },
                 child: Center(

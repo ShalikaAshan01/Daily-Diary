@@ -35,6 +35,7 @@ dependencies:
   flutter_facebook_login: ^3.0.0
   flutter_datetime_picker: ^1.2.8
   intl: ^0.16.0
+  local_auth: ^0.6.0+1
 
 
 dev_dependencies:

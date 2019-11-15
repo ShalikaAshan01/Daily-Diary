@@ -1,8 +1,10 @@
 import 'package:daily_diary/controllers/story_controller.dart';
 import 'package:daily_diary/controllers/user_control.dart';
 import 'package:daily_diary/model/story.dart';
+import 'package:daily_diary/pages/settings/settings.dart';
 import 'package:daily_diary/pages/story/add_stories.dart';
 import 'package:daily_diary/pages/story/show_story.dart';
+import 'package:daily_diary/widgets/common_widgets.dart';
 import 'package:daily_diary/widgets/delayed_animation.dart';
 import 'package:daily_diary/widgets/my_alert.dart';
 import 'package:daily_diary/widgets/name.dart';
@@ -91,6 +93,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     _greeting();
+    return _mainPage();
+  }
+
+  Widget _mainPage() {
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: _onWillPop,
@@ -151,7 +157,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                               bool active = currentIdx == _currentPage;
 
                               if (currentIdx == 0) {
-                                return firstPage(active);
+                                return _firstPage(active);
                               }
                               Story story = Story.fromMapObject(
                                   stories[currentIdx - 1].data);
@@ -168,11 +174,31 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                 "add ${_months[newDate.month - 1].substring(
                                     0, 3)} ${newDate.day}'s story";
                               }
-                              return customCards(story, active);
+                              return _customCards(story, active);
                             },
                           );
                         }
                     ),
+                  ),
+                  Container(
+                    color: Colors.transparent,
+                    margin: EdgeInsets.fromLTRB(0, 45, 0, 10),
+                    height: 120,
+                    width: double.infinity,
+                    alignment: Alignment.topRight,
+                    child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(context,
+                              CommonWidgets().slideUpNavigation(Settings()));
+                        },
+                        child: Container(
+                            color: Colors.transparent,
+                            padding: EdgeInsets.only(right: 40, left: 20),
+                            width: 65,
+                            height: 45,
+                            child: Icon(
+                              FontAwesomeIcons.slidersH, color: Colors.white,
+                              size: 27,))),
                   ),
                 ],
               ),
@@ -181,7 +207,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     );
   }
 
-  Widget firstPage(bool active) {
+
+  Widget _firstPage(bool active) {
     Color _primary = Theme.of(context).primaryColor;
     Color _accent = Theme.of(context).accentColor;
 
@@ -243,7 +270,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         ));
   }
 
-  Widget customCards(Story _story, bool active) {
+  Widget _customCards(Story _story, bool active) {
     final double blur = active ? 30 : 0;
     final double offset = active ? 20 : 0;
     final double top = active ? 150 : 200;

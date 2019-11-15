@@ -26,4 +26,14 @@ class UserControl {
   Future<FirebaseUser> getCurrentUser(){
     return FirebaseAuth.instance.currentUser();
   }
+
+  Future<void> updateUserName(String name) async {
+    FirebaseUser _user = await FirebaseAuth.instance.currentUser();
+    UserUpdateInfo updateUser = UserUpdateInfo();
+    updateUser.displayName = name;
+    await _user.updateProfile(updateUser);
+    await _user.reload();
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString("name", name);
+  }
 }
