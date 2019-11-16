@@ -36,4 +36,8 @@ class UserControl {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString("name", name);
   }
+
+  Future<void> logout() async {
+    await FirebaseAuth.instance.signOut();
+  }
 }

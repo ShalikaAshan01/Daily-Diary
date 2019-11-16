@@ -27,8 +27,10 @@ class _RootState extends State<root> {
     if (_biometrics == null)
       //todo:add loading
       return Scaffold();
-    if (_biometrics) return BiometricsAuth();
-    if (!_biometrics) return Home();
+    else if (_biometrics)
+      return BiometricsAuth();
+    else
+      return Home();
   }
 
   Future<void> _getBiometrics() async {
