@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyNotifications {
   static MyNotifications _myNotification;
@@ -80,5 +81,11 @@ class MyNotifications {
           'pending notification: [id: ${pendingNotificationRequest.id}, title: ${pendingNotificationRequest.title}, body: ${pendingNotificationRequest.body}, payload: ${pendingNotificationRequest.payload}]');
     }
     return pendingNotificationRequests;
+  }
+
+  Future<void> cancelNotifications() async {
+    await flutterLocalNotificationsPlugin.cancel(0);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("reminder", false);
   }
 }

@@ -1,4 +1,5 @@
 import 'package:daily_diary/controllers/user_control.dart';
+import 'package:daily_diary/utils/my_notifications.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,7 +16,8 @@ class _SettingsState extends State<Settings> {
   Color _color2 = Color(0xFF29395A);
   Color _color3 = Color(0xFF294261);
   String name;
-  bool biometrics = false;
+  bool _biometrics = false;
+  bool _notification = false;
   final LocalAuthentication _localAuthentication = LocalAuthentication();
   bool _hasFingerPrintSupport = false;
   TextEditingController _nameEditingController = TextEditingController();
@@ -31,6 +33,7 @@ class _SettingsState extends State<Settings> {
     });
     _getBiometrics();
     _getBiometricsSupport();
+    _getNotifications();
   }
 
   @override
@@ -90,9 +93,27 @@ class _SettingsState extends State<Settings> {
               child: _customCardToggle(
                   height: 150,
                   icon: FontAwesomeIcons.fingerprint,
-                  title: biometrics ? "Enabled" : "Disabled",
-                  subtitle: "biometric passcode".toUpperCase()),
-            )
+                  title: _biometrics ? "Enabled" : "Disabled",
+                  subtitle: "biometric passcode".toUpperCase(),
+                  value: _biometrics,
+                  onChanged: (_) async {
+                    await _setBiometrics();
+                  }
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 320),
+              child: _customCardToggle(
+                  height: 150,
+                  icon: FontAwesomeIcons.bell,
+                  title: _notification ? "Enabled" : "Disabled",
+                  subtitle: "Notifications".toUpperCase(),
+                  value: _notification,
+                  onChanged: (_) async {
+                    await _setNotifications();
+                  }
+              ),
+            ),
           ],
         ),
       ),
@@ -103,6 +124,25 @@ class _SettingsState extends State<Settings> {
     await UserControl().updateUserName(name);
   }
 
+  Future<void> _getNotifications() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool notification = prefs.getBool("reminder");
+    setState(() {
+      _notification = notification;
+    });
+  }
+
+  Future<void> _setNotifications() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    if (_notification) {
+      await preferences.setBool("reminder", true);
+      await MyNotifications().dailyNotification();
+    } else {
+      await preferences.setBool("reminder", false);
+      await MyNotifications().cancelNotifications();
+    }
+  }
+
   Future<void> _getBiometrics() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     bool bio = preferences.getBool("biometrics");
@@ -111,20 +151,20 @@ class _SettingsState extends State<Settings> {
       bio = false;
     }
     setState(() {
-      biometrics = bio;
+      _biometrics = bio;
     });
   }
 
   Future<void> _setBiometrics() async {
     if (_hasFingerPrintSupport) {
       SharedPreferences preferences = await SharedPreferences.getInstance();
-      await preferences.setBool("biometrics", !biometrics);
+      await preferences.setBool("biometrics", !_biometrics);
       setState(() {
-        biometrics = !biometrics;
+        _biometrics = !_biometrics;
       });
     } else
       setState(() {
-        biometrics = false;
+        _biometrics = false;
       });
   }
 
@@ -208,6 +248,8 @@ class _SettingsState extends State<Settings> {
       @required IconData icon,
       @required String title,
       @required String subtitle,
+        @required Function onChanged,
+        @required bool value,
       bool isName}) {
     return Container(
       margin: EdgeInsets.only(top: 230, left: 10, right: 10),
@@ -252,10 +294,8 @@ class _SettingsState extends State<Settings> {
               child: Transform.scale(
                 scale: 1.5,
                 child: Switch(
-                  value: biometrics,
-                  onChanged: (_) async {
-                    await _setBiometrics();
-                  },
+                  value: value,
+                  onChanged: onChanged,
                 ),
               ),
             )
