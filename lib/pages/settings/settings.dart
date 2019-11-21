@@ -2,7 +2,7 @@ import 'package:daily_diary/controllers/user_control.dart';
 import 'package:daily_diary/themes/custom_theme.dart';
 import 'package:daily_diary/themes/my_themes.dart';
 import 'package:daily_diary/utils/my_notifications.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:daily_diary/widgets/user_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -25,7 +25,6 @@ class _SettingsState extends State<Settings> {
   bool _hasFingerPrintSupport = false;
   TextEditingController _nameEditingController = TextEditingController();
   int themeKey = 0;
-  String photoUrl;
 
   @override
   void initState() {
@@ -34,11 +33,6 @@ class _SettingsState extends State<Settings> {
     UserControl().getName().then((String _name) {
       setState(() {
         name = _name;
-      });
-    });
-    UserControl().getCurrentUser().then((FirebaseUser user) {
-      setState(() {
-        photoUrl = user.photoUrl;
       });
     });
     _getBiometrics();
@@ -97,13 +91,7 @@ class _SettingsState extends State<Settings> {
                   width: 150,
                   height: 150,
                   margin: EdgeInsets.only(right: 30),
-                  child: photoUrl == null ? Icon(
-                    FontAwesomeIcons.camera,
-                    color: Colors.white60,
-                    size: 50,
-                  ) :
-                  Image(image: NetworkImage(photoUrl),)
-                  ,
+                    child: UserImage()
                 ),
               ),
               _customNameCard(),

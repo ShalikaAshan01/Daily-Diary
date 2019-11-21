@@ -27,6 +27,11 @@ class UserControl {
     return FirebaseAuth.instance.currentUser();
   }
 
+  Future<String> getDisplayImage() async {
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    return user.photoUrl;
+  }
+
   Future<void> updateUserName(String name) async {
     FirebaseUser _user = await FirebaseAuth.instance.currentUser();
     UserUpdateInfo updateUser = UserUpdateInfo();

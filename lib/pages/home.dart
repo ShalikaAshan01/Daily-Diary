@@ -6,7 +6,6 @@ import 'package:daily_diary/pages/story/add_stories.dart';
 import 'package:daily_diary/pages/story/show_story.dart';
 import 'package:daily_diary/widgets/common_widgets.dart';
 import 'package:daily_diary/widgets/delayed_animation.dart';
-import 'package:daily_diary/widgets/my_alert.dart';
 import 'package:daily_diary/widgets/name.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -69,27 +68,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  Future<bool> _onWillPop() {
-    return showDialog(
-        context: context,
-        builder: (context) =>
-            MyAlert(
-              title: "Are you sure?",
-              content: "Are you certain that you want to close?",
-              actions: <Widget>[
-                FlatButton(
-                  onPressed: () => Navigator.of(context).pop(false),
-                  child: Text('NO'),
-                ),
-                new FlatButton(
-                  onPressed: () => Navigator.of(context).pop(true),
-                  child: Text('YES'),
-                ),
-              ],
-            )
-    ) ?? false;
-  }
-
   @override
   Widget build(BuildContext context) {
     _greeting();
@@ -98,113 +76,110 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   Widget _mainPage() {
     Size size = MediaQuery.of(context).size;
-    return WillPopScope(
-      onWillPop: _onWillPop,
-      child: Scaffold(
-          body: Container(
-            height: size.height,
-            width: size.width,
-            child: CustomPaint(
-              painter: _Background(),
-              child: Stack(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(top: size.height * 0.08, left: 25),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        DelayedAnimation(
-                            delay: delayedAmount,
-                            child: Text(
-                              text,
-                              style: TextStyle(fontSize: 25,
-                                  color: Colors.white60),
-                            )),
-                        SizedBox(
-                          height: 13,
-                        ),
-                        DelayedAnimation(
-                            delay: delayedAmount + 1000,
-                            child: Name(
-                              textStyle:
-                              TextStyle(fontSize: 25, color: Colors.white30),
-                            )),
-                      ],
-                    ),
+    return Scaffold(
+        body: Container(
+          height: size.height,
+          width: size.width,
+          child: CustomPaint(
+            painter: _Background(),
+            child: Stack(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(top: size.height * 0.08, left: 25),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      DelayedAnimation(
+                          delay: delayedAmount,
+                          child: Text(
+                            text,
+                            style: TextStyle(fontSize: 25,
+                                color: Colors.white60),
+                          )),
+                      SizedBox(
+                        height: 13,
+                      ),
+                      DelayedAnimation(
+                          delay: delayedAmount + 1000,
+                          child: Name(
+                            textStyle:
+                            TextStyle(fontSize: 25, color: Colors.white30),
+                          )),
+                    ],
                   ),
-                  SlideTransition(
-                    position: _offsetFloat,
-                    child: StreamBuilder(
-                        stream: StoryController().getStories(userId),
-                        builder: (context, snapshot) {
-                          List stories;
-                          int length;
-                          if (snapshot.hasData) {
-                            stories = snapshot.data.documents;
-                            length = stories.length;
-                          } else {
-                            length = 0;
-                          }
-                          return PageView.builder(
-                            controller: _ctrl,
-                            itemCount: length + 1,
-                            onPageChanged: (value) {
-                              setState(() {
-                                _currentPage = value;
-                              });
-                            },
-                            itemBuilder: (context, int currentIdx) {
-                              bool active = currentIdx == _currentPage;
-
-                              if (currentIdx == 0) {
-                                return _firstPage(active);
-                              }
-                              Story story = Story.fromMapObject(
-                                  stories[currentIdx - 1].data);
-                              story.id =
-                                  stories[currentIdx - 1].reference.documentID;
-
-                              if (_addStoryDate
-                                  .difference(story.date)
-                                  .inDays == 0) {
-                                DateTime newDate = story.date.subtract(
-                                    Duration(days: 1));
-                                _addStoryDate = newDate;
-                                _addText =
-                                "add ${_months[newDate.month - 1].substring(
-                                    0, 3)} ${newDate.day}'s story";
-                              }
-                              return _customCards(story, active);
-                            },
-                          );
+                ),
+                SlideTransition(
+                  position: _offsetFloat,
+                  child: StreamBuilder(
+                      stream: StoryController().getStories(userId),
+                      builder: (context, snapshot) {
+                        List stories;
+                        int length;
+                        if (snapshot.hasData) {
+                          stories = snapshot.data.documents;
+                          length = stories.length;
+                        } else {
+                          length = 0;
                         }
-                    ),
+                        return PageView.builder(
+                          controller: _ctrl,
+                          itemCount: length + 1,
+                          onPageChanged: (value) {
+                            setState(() {
+                              _currentPage = value;
+                            });
+                          },
+                          itemBuilder: (context, int currentIdx) {
+                            bool active = currentIdx == _currentPage;
+
+                            if (currentIdx == 0) {
+                              return _firstPage(active);
+                            }
+                            Story story = Story.fromMapObject(
+                                stories[currentIdx - 1].data);
+                            story.id =
+                                stories[currentIdx - 1].reference.documentID;
+
+                            if (_addStoryDate
+                                .difference(story.date)
+                                .inDays == 0) {
+                              DateTime newDate = story.date.subtract(
+                                  Duration(days: 1));
+                              _addStoryDate = newDate;
+                              _addText =
+                              "add ${_months[newDate.month - 1].substring(
+                                  0, 3)} ${newDate.day}'s story";
+                            }
+                            return _customCards(story, active);
+                          },
+                        );
+                      }
                   ),
-                  Container(
-                    color: Colors.transparent,
-                    margin: EdgeInsets.fromLTRB(0, 45, 0, 10),
-                    height: 120,
-                    width: double.infinity,
-                    alignment: Alignment.topRight,
-                    child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(context,
-                              CommonWidgets().slideUpNavigation(Settings()));
-                        },
-                        child: Container(
-                            color: Colors.transparent,
-                            padding: EdgeInsets.only(right: 40, left: 20),
-                            width: 65,
-                            height: 45,
-                            child: Icon(
-                              FontAwesomeIcons.slidersH, color: Colors.white,
-                              size: 27,))),
-                  ),
-                ],
-              ),
+                ),
+                Container(
+                  color: Colors.transparent,
+                  margin: EdgeInsets.fromLTRB(0, 45, 0, 10),
+                  height: 120,
+                  width: double.infinity,
+                  alignment: Alignment.topRight,
+                  child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(context,
+                            CommonWidgets().slideUpNavigation(Settings()));
+                      },
+                      child: Container(
+                          color: Colors.transparent,
+                          padding: EdgeInsets.only(right: 40, left: 20),
+                          width: 65,
+                          height: 45,
+                          child: Icon(
+                            FontAwesomeIcons.slidersH, color: Colors.white,
+                            size: 27,))),
+                ),
+              ],
             ),
-          )),
-    );
+          ),
+        ));
   }
 
 
@@ -221,6 +196,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
     return AnimatedContainer(
         duration: Duration(milliseconds: 500),
+        margin: EdgeInsets.only(left: 10, right: 10),
         padding: EdgeInsets.fromLTRB(10, top, 10, bottom),
         child: GestureDetector(
           onTap: () {
@@ -293,7 +269,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         child: AnimatedContainer(
             duration: Duration(milliseconds: 500),
             margin: EdgeInsets.only(
-                top: top, bottom: bottom, right: 10, left: 10),
+                top: top, bottom: bottom, right: 20, left: 20),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 image: DecorationImage(

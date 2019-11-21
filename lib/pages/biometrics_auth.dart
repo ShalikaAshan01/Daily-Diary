@@ -1,4 +1,4 @@
-import 'package:daily_diary/pages/home.dart';
+import 'package:daily_diary/pages/my_bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
@@ -44,7 +44,8 @@ class _BiometricsAuthState extends State<BiometricsAuth> {
     _authenticateMe().then((val) {
       if (val) {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Home()));
+            context,
+            MaterialPageRoute(builder: (context) => MyBottomNavigationBar()));
       }
     });
     return Scaffold(

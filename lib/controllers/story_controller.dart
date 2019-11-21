@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:daily_diary/controllers/user_control.dart';
 import 'package:daily_diary/model/story.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class StoryController {
   final String _mainCollection = "stories";
@@ -47,4 +49,24 @@ class StoryController {
     return await Firestore.instance.collection(_mainCollection).document(id)
         .updateData(_story.toMap());
   }
+
+  Stream<QuerySnapshot> getFavourites(String userId) {
+    return Firestore.instance
+        .collection(_mainCollection)
+        .where('userId', isEqualTo: userId)
+        .orderBy("date", descending: true)
+        .snapshots();
+  }
+
+  Future<List> getCounts() async {
+    FirebaseUser user = await UserControl().getCurrentUser();
+    QuerySnapshot totalSnap = await Firestore.instance.collection(
+        _mainCollection).where("userId", isEqualTo: user.uid).getDocuments();
+    QuerySnapshot favSnap = await Firestore.instance.collection(_mainCollection)
+        .where("userId", isEqualTo: user.uid).where(
+        "favourite", isEqualTo: true)
+        .getDocuments();
+    return [totalSnap.documents.length, favSnap.documents.length];
+  }
+
 }

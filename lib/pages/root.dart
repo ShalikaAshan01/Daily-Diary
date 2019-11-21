@@ -1,5 +1,5 @@
 import 'package:daily_diary/pages/biometrics_auth.dart';
-import 'package:daily_diary/pages/home.dart';
+import 'package:daily_diary/pages/my_bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,7 +30,7 @@ class _RootState extends State<root> {
     else if (_biometrics)
       return BiometricsAuth();
     else
-      return Home();
+      return MyBottomNavigationBar();
   }
 
   Future<void> _getBiometrics() async {
