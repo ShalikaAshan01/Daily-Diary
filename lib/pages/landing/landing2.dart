@@ -16,12 +16,34 @@ class Landing2 extends StatefulWidget {
   State<StatefulWidget> createState() => _Landing2State();
 }
 
-class _Landing2State extends State<Landing2> {
+class _Landing2State extends State<Landing2>
+    with SingleTickerProviderStateMixin {
   Color _nextColor = Colors.white54;
   IconData _fbIcon = FontAwesomeIcons.facebookF;
   CommonWidgets commonWidgets = CommonWidgets();
   bool isLoading = false;
+  AnimationController controller;
+  Animation<double> animation;
 
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(
+        duration: const Duration(milliseconds: 500), vsync: this);
+    animation = Tween(begin: 0.0, end: 1.0).animate(controller)
+      ..addListener(() {
+        setState(() {
+          // the state that has changed here is the animation object’s value
+        });
+      });
+    controller.repeat();
+  }
+
+  @override
+  void dispose() {
+    controller.stop();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     Color _primary = Theme.of(context).primaryColor;
@@ -40,6 +62,8 @@ class _Landing2State extends State<Landing2> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              isLoading ?
+              LinearProgressIndicator(value: animation.value,) : Container(),
               Container(
                 child: AvatarGlow(
                   endRadius: 90,
@@ -80,20 +104,16 @@ class _Landing2State extends State<Landing2> {
                   },
                   icon: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: !isLoading?Image(
+                    child: Image(
                       width: 25,
                       image: AssetImage("assets/imgs/google.png"),
-                    ):
-                        Container(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor)),
-                        )
+                    )
                     ,
                   ),
                   label: Padding(
                     padding: const EdgeInsets.only(top:20.0,bottom: 20),
-                    child: Text(!isLoading?"Sign in with Google":"Loading...",style: TextStyle(fontSize: 18,color: Colors.grey),),
+                    child: Text("Sign in with Google",
+                      style: TextStyle(fontSize: 18, color: Colors.grey),),
                   ),
                   color: Colors.white,
                   elevation: 10,
@@ -110,17 +130,12 @@ class _Landing2State extends State<Landing2> {
                   },
                   icon: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: !isLoading?Icon(_fbIcon,size: 22,):
-                    Container(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
-                    )
-                    ,
+                    child: Icon(_fbIcon, size: 22,),
                   ),
                   label: Padding(
                     padding: const EdgeInsets.only(top:20.0,bottom: 20),
-                    child: Text(!isLoading?"Sign in with Facebook":"Loading...",style: TextStyle(fontSize: 18),),
+                    child: Text(
+                      "Sign in with Facebook", style: TextStyle(fontSize: 18),),
                   ),
                   color: Color(0xFF4267b2),
                   elevation: 10,
