@@ -11,13 +11,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 void main(){
-      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-          .then((_) {
-        runApp(
-            CustomTheme(
-              child: MyApp(),)
-        );
-      });
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(
+        CustomTheme(
+          child: MyApp(),)
+    );
+  });
 }
 class MyApp extends StatelessWidget{
   @override
