@@ -5,6 +5,7 @@ import 'package:daily_diary/pages/landing/landing4.dart';
 import 'package:daily_diary/pages/root.dart';
 import 'package:daily_diary/themes/custom_theme.dart';
 import 'package:daily_diary/utils/auth.dart';
+import 'package:daily_diary/widgets/logo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -47,8 +48,9 @@ class SplashScreen extends StatelessWidget {
         Navigator.pushReplacementNamed(context, "/landing1");
       }
     });
-    //TODO:add loading
     return Scaffold(
+      backgroundColor: Color(0xFF233355),
+      body: Logo(size: 150,),
     );
   }
 

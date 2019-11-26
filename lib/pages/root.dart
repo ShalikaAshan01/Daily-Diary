@@ -1,5 +1,6 @@
 import 'package:daily_diary/pages/biometrics_auth.dart';
 import 'package:daily_diary/pages/my_bottom_navigation_bar.dart';
+import 'package:daily_diary/widgets/logo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,8 +26,10 @@ class _RootState extends State<root> {
 
   Widget _build() {
     if (_biometrics == null)
-      //todo:add loading
-      return Scaffold();
+      return Scaffold(
+        backgroundColor: Color(0xFF233355),
+        body: Logo(size: 150,),
+      );
     else if (_biometrics)
       return BiometricsAuth();
     else

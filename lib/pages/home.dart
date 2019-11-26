@@ -20,9 +20,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   PageController _ctrl;
   int _currentPage = 0;
-  Color _color1 = Color(0xFF233355);
-  Color _color2 = Color(0xFF29395A);
-  Color _color3 = Color(0xFF294261);
   String text = "Good Morning";
   String _addText = "Add today's story";
   DateTime _addStoryDate;
