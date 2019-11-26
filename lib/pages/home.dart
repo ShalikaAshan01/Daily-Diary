@@ -56,9 +56,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         .animate(_controller);
     _controller.forward();
     UserControl().getCurrentUser().then((FirebaseUser user) {
-      setState(() {
-        userId = user.uid;
-      });
+      if (mounted)
+        setState(() {
+          userId = user.uid;
+        });
     });
   }
 
@@ -125,9 +126,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                           controller: _ctrl,
                           itemCount: length + 1,
                           onPageChanged: (value) {
-                            setState(() {
-                              _currentPage = value;
-                            });
+                            if (mounted)
+                              setState(() {
+                                _currentPage = value;
+                              });
                           },
                           itemBuilder: (context, int currentIdx) {
                             bool active = currentIdx == _currentPage;
@@ -367,29 +369,31 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           seconds: 1,
         ))
       ..addListener(() {
-        setState(() {});
+        if (mounted)
+          setState(() {});
       });
   }
 
   void _greeting() {
     int hour = DateTime.now().hour;
-    if (hour > 2 && hour < 12) {
-      setState(() {
-        text = "Good morning,";
-      });
-    } else if (hour < 17) {
-      setState(() {
-        text = "Good afternoon,";
-      });
-    } else if (hour < 20) {
-      setState(() {
-        text = "Good evening,";
-      });
-    } else {
-      setState(() {
-        text = "Good night,";
-      });
-    }
+    if (mounted)
+      if (hour > 2 && hour < 12) {
+        setState(() {
+          text = "Good morning,";
+        });
+      } else if (hour < 17) {
+        setState(() {
+          text = "Good afternoon,";
+        });
+      } else if (hour < 20) {
+        setState(() {
+          text = "Good evening,";
+        });
+      } else {
+        setState(() {
+          text = "Good night,";
+        });
+      }
   }
 }
 

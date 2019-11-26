@@ -46,27 +46,30 @@ class _TaskTabState extends State<TasksTab> {
       for (int i = 0; i < story.length; i++) {
         dateTime.add(formatter.format(story[i].date));
       }
-      setState(() {
-        _dates = dateTime;
-        _stories = story;
-      });
+      if (mounted)
+        setState(() {
+          _dates = dateTime;
+          _stories = story;
+        });
     });
   }
 
   @override
   void initState() {
     super.initState();
-    getStories();
     UserControl().getCurrentUser().then((FirebaseUser user) {
-      setState(() {
-        userId = user.uid;
-      });
+      if (mounted)
+        setState(() {
+          userId = user.uid;
+        });
     });
     _pageController();
   }
 
+
   @override
   Widget build(BuildContext context) {
+    getStories();
     return Scaffold(
       backgroundColor: _color1,
       body: ListView(
@@ -100,6 +103,7 @@ class _TaskTabState extends State<TasksTab> {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.0),
       child: CalendarCarousel<Event>(
+        onDayLongPressed: (DateTime date) {},
         onDayPressed: (DateTime date, List<Event> events) {
           if (_dates != null) {
             int index = _dates.indexOf(formatter.format(date));
@@ -109,6 +113,9 @@ class _TaskTabState extends State<TasksTab> {
                   CommonWidgets().slideUpNavigation(ShowStoryWithout(
                     story: _stories[index],
                   )));
+            } else
+            if (formatter.format(date) == formatter.format(DateTime.now())) {
+              print("gsegesg");
             } else if (date.isBefore(DateTime.now())) {
               Navigator.push(
                   context,
@@ -128,17 +135,17 @@ class _TaskTabState extends State<TasksTab> {
 //        child: Text('Custom Header'),
 //      ),
         customDayBuilder: (
-          /// you can provide your own build function to make custom day containers
-          bool isSelectable,
-          int index,
-          bool isSelectedDay,
-          bool isToday,
-          bool isPrevMonthDay,
-          TextStyle textStyle,
-          bool isNextMonthDay,
-          bool isThisMonthDay,
-          DateTime day,
-        ) {
+
+            /// you can provide your own build function to make custom day containers
+            bool isSelectable,
+            int index,
+            bool isSelectedDay,
+            bool isToday,
+            bool isPrevMonthDay,
+            TextStyle textStyle,
+            bool isNextMonthDay,
+            bool isThisMonthDay,
+            DateTime day,) {
           /// If you return null, [CalendarCarousel] will build container for current [day] with default function.
           /// This way you can build custom containers for specific days only, leaving rest as default.
 
@@ -229,9 +236,10 @@ class _TaskTabState extends State<TasksTab> {
           controller: _ctrl,
           itemCount: length,
           onPageChanged: (value) {
-            setState(() {
-              _currentPage = value;
-            });
+            if (mounted)
+              setState(() {
+                _currentPage = value;
+              });
           },
           itemBuilder: (context, int currentIdx) {
             bool active = currentIdx == _currentPage;

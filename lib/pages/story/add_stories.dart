@@ -157,9 +157,10 @@ class _AddStoriesState extends State<AddStories> {
         minTime: DateTime(2018, 3, 5),
         maxTime: DateTime(widget.date.year, widget.date.month, widget.date.day),
         onChanged: (date) {
-      setState(() {
-        _selectedDate = date;
-      });
+          if (mounted)
+            setState(() {
+              _selectedDate = date;
+            });
     }, currentTime: DateTime.now(), locale: LocaleType.en);
   }
 }
