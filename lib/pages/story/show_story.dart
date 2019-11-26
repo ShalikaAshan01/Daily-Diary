@@ -222,18 +222,13 @@ class _ShowStoryState extends State<ShowStory> {
               ),
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              //todo add edit story
-            },
-            child: Container(
-              padding: EdgeInsets.only(top: 80, left: 30, right: 30),
-              child: Text(
-                widget.story.story.isNotEmpty
-                    ? widget.story.story
-                    : "Edit Story to add some text...",
-                style: TextStyle(color: Colors.white70),
-              ),
+          Container(
+            padding: EdgeInsets.only(top: 80, left: 30, right: 30),
+            child: Text(
+              widget.story.story.isNotEmpty
+                  ? widget.story.story
+                  : "Edit Story to add some text...",
+              style: TextStyle(color: Colors.white70),
             ),
           )
         ],

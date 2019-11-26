@@ -54,6 +54,7 @@ class StoryController {
     return Firestore.instance
         .collection(_mainCollection)
         .where('userId', isEqualTo: userId)
+        .where('favourite', isEqualTo: true)
         .orderBy("date", descending: true)
         .snapshots();
   }
@@ -67,6 +68,21 @@ class StoryController {
         "favourite", isEqualTo: true)
         .getDocuments();
     return [totalSnap.documents.length, favSnap.documents.length];
+  }
+
+  Future<List<Story>> getStoriesAsList() async {
+    FirebaseUser user = await UserControl().getCurrentUser();
+    QuerySnapshot snapshot = await Firestore.instance
+        .collection(_mainCollection)
+        .where('userId', isEqualTo: user.uid)
+        .orderBy("date", descending: true).getDocuments();
+
+    List<Story> stories = List();
+
+    for (int i = 0; i < snapshot.documents.length; i++) {
+      stories.add(Story.fromMapObject(snapshot.documents[i].data));
+    }
+    return stories;
   }
 
 }

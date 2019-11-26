@@ -1,3 +1,4 @@
+import 'package:daily_diary/pages/tasks_tab.dart';
 import 'package:daily_diary/pages/user_profile.dart';
 import 'package:daily_diary/widgets/my_alert.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,15 +15,12 @@ class MyBottomNavigationBar extends StatefulWidget {
 class _BottomNavigationBarState extends State<MyBottomNavigationBar> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   Color _color1 = Color(0xFF233355);
   Color _color3 = Color(0xFF294261);
   static List<Widget> _widgetOptions = <Widget>[
     Home(),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
+    TasksTab(),
     UserProfile(),
   ];
 
@@ -39,21 +37,21 @@ class _BottomNavigationBarState extends State<MyBottomNavigationBar> {
       });
     } else {
       return showDialog(
-              context: context,
-              builder: (context) => MyAlert(
-                    title: "Are you sure?",
-                    content: "Are you certain that you want to close?",
-                    actions: <Widget>[
-                      FlatButton(
-                        onPressed: () => Navigator.of(context).pop(false),
-                        child: Text('NO'),
-                      ),
-                      new FlatButton(
-                        onPressed: () => Navigator.of(context).pop(true),
-                        child: Text('YES'),
-                      ),
-                    ],
-                  )) ??
+          context: context,
+          builder: (context) => MyAlert(
+            title: "Are you sure?",
+            content: "Are you certain that you want to close?",
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text('NO'),
+              ),
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Text('YES'),
+              ),
+            ],
+          )) ??
           false;
     }
   }
