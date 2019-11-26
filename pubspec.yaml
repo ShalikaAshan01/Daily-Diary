@@ -59,6 +59,10 @@ flutter:
   assets:
     - assets/imgs/logo.png
     - assets/imgs/google.png
+    - assets/imgs/moon.png
+    - assets/imgs/sun.png
+    - assets/imgs/sun_cloud.png
+    - assets/imgs/sunrise.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

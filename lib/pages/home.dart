@@ -20,8 +20,10 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   PageController _ctrl;
   int _currentPage = 0;
-  String text = "Good Morning";
+  String _text = "Good Morning";
   String _addText = "Add today's story";
+  Image _image = Image.asset(
+    "assets/imgs/sunrise.png", width: 55, height: 55, color: Colors.white30,);
   DateTime _addStoryDate;
   List<String> _months = [
     "January",
@@ -82,15 +84,15 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             painter: _Background(),
             child: Stack(
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: size.height * 0.08, left: 25),
+                Container(
+                  margin: EdgeInsets.only(top: size.height * 0.08, left: 80),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       DelayedAnimation(
                           delay: delayedAmount,
                           child: Text(
-                            text,
+                            _text,
                             style: TextStyle(fontSize: 25,
                                 color: Colors.white60),
                           )),
@@ -175,6 +177,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                             FontAwesomeIcons.slidersH, color: Colors.white,
                             size: 27,))),
                 ),
+                Padding(
+                  padding: EdgeInsets.only(left: 15, top: size.height * 0.08),
+                  child: _image,
+                ),
               ],
             ),
           ),
@@ -199,13 +205,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         padding: EdgeInsets.fromLTRB(10, top, 10, bottom),
         child: GestureDetector(
           onTap: () {
-            if (text != "Good Morning") {
+            if (_text != "Good Morning") {
               Navigator.push(
                 context,
                 PageRouteBuilder(
                   pageBuilder: (c, a1, a2) =>
                       AddStories(
-                        greeting: text, date: _addStoryDate,
+                        greeting: _text, date: _addStoryDate,
                       ),
                   transitionsBuilder: (c, anim, a2, child) =>
                       FadeTransition(opacity: anim, child: child),
@@ -378,19 +384,31 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     if (mounted)
       if (hour > 2 && hour < 12) {
         setState(() {
-          text = "Good morning,";
+          _text = "Good morning,";
+          _image = Image.asset("assets/imgs/sunrise.png", width: 55,
+            height: 55,
+            color: Colors.white30,);
         });
       } else if (hour < 17) {
         setState(() {
-          text = "Good afternoon,";
+          _text = "Good afternoon,";
+          _image = Image.asset("assets/imgs/sun.png", width: 55,
+            height: 55,
+            color: Colors.white30,);
         });
       } else if (hour < 20) {
         setState(() {
-          text = "Good evening,";
+          _text = "Good evening,";
+          _image = Image.asset("assets/imgs/sun_cloud.png", width: 55,
+            height: 55,
+            color: Colors.white30,);
         });
       } else {
         setState(() {
-          text = "Good night,";
+          _text = "Good night,";
+          _image = Image.asset("assets/imgs/moon.png", width: 55,
+            height: 55,
+            color: Colors.white30,);
         });
       }
   }
