@@ -202,18 +202,20 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         padding: EdgeInsets.fromLTRB(10, top, 10, bottom),
         child: GestureDetector(
           onTap: () {
-            //todo:dynamic date and texts{update}
-            Navigator.push(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (c, a1, a2) => AddStories(
-                  greeting: text, date: _addStoryDate,
+            if (text != "Good Morning") {
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (c, a1, a2) =>
+                      AddStories(
+                        greeting: text, date: _addStoryDate,
+                      ),
+                  transitionsBuilder: (c, anim, a2, child) =>
+                      FadeTransition(opacity: anim, child: child),
+                  transitionDuration: Duration(milliseconds: 800),
                 ),
-                transitionsBuilder: (c, anim, a2, child) =>
-                    FadeTransition(opacity: anim, child: child),
-                transitionDuration: Duration(milliseconds: 800),
-              ),
-            );
+              );
+            }
           },
           child: Container(
               decoration: BoxDecoration(

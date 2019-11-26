@@ -1,4 +1,5 @@
 import 'package:daily_diary/controllers/story_controller.dart';
+import 'package:daily_diary/pages/about_us.dart';
 import 'package:daily_diary/pages/settings/settings.dart';
 import 'package:daily_diary/widgets/common_widgets.dart';
 import 'package:daily_diary/widgets/name.dart';
@@ -96,6 +97,9 @@ class UserProfile extends StatelessWidget {
                         icon: Icons.contact_mail,
                         text: "About us",
                         left: 180,
+                        onTap: () =>
+                            Navigator.push(context,
+                                CommonWidgets().slideUpNavigation(AboutUs())),
                         context: context),
 //                    _bottomCard(icon: FontAwesomeIcons.star,text: "About us",left: 360,context: context),
                   ],
@@ -131,31 +135,34 @@ class UserProfile extends StatelessWidget {
   }
 
   Widget _bottomCard(
-      {IconData icon, String text, double left, BuildContext context}) {
+      {IconData icon, String text, double left, BuildContext context, onTap}) {
     Color primary = Theme.of(context).primaryColor;
     Color secondary = Theme.of(context).accentColor;
-    return Container(
-      margin: EdgeInsets.only(left: left),
-      width: 150,
-      height: 200,
-      decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [primary, secondary]),
-          borderRadius: BorderRadius.circular(20)),
-      child: Stack(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(left: 10, top: 10),
-            child: Icon(
-              icon,
-              color: Colors.white70,
-              size: 20,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: EdgeInsets.only(left: left),
+        width: 150,
+        height: 200,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(colors: [primary, secondary]),
+            borderRadius: BorderRadius.circular(20)),
+        child: Stack(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(left: 10, top: 10),
+              child: Icon(
+                icon,
+                color: Colors.white70,
+                size: 20,
+              ),
             ),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 10, top: 150),
-            child: Text(text),
-          )
-        ],
+            Container(
+              margin: EdgeInsets.only(left: 10, top: 150),
+              child: Text(text),
+            )
+          ],
+        ),
       ),
     );
   }
