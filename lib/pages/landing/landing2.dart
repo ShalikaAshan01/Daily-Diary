@@ -1,6 +1,7 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:daily_diary/controllers/user_control.dart';
 import 'package:daily_diary/pages/landing/landing3.dart';
+import 'package:daily_diary/pages/privacy_policy.dart';
 import 'package:daily_diary/utils/auth.dart';
 import 'package:daily_diary/widgets/common_widgets.dart';
 import 'package:daily_diary/widgets/logo.dart';
@@ -125,11 +126,15 @@ class _Landing2State extends State<Landing2> {
                   elevation: 10,
                 ),
               ),
-              //TODO:add privacy policy
               Container(
                   padding: EdgeInsets.all(10),
-                  child: Text(
-                      "By clicking the above buttons, you agree to the our terms and conditions")),
+                  child: GestureDetector(
+                    onTap: () =>
+                        Navigator.push(context,
+                            CommonWidgets().slideUpNavigation(PrivacyPolicy())),
+                    child: Text(
+                        "By clicking the above buttons, you agree to the our terms and conditions"),
+                  )),
               Spacer(),
               Container(
                   child: Row(
