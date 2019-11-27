@@ -12,17 +12,17 @@ class MyThemes {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       textTheme: ButtonTextTheme.primary,
     ),
-    fontFamily: 'Montserrat',
+    fontFamily: 'Arvo',
     textTheme: TextTheme(
       headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
       title: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
       body1: TextStyle(
           fontSize: 16.0,
-          fontFamily: 'Hind',
+          fontFamily: 'Arvo',
           color: Colors.white,
           fontWeight: FontWeight.bold),
       body2: TextStyle(
-          fontSize: 16.0, fontFamily: 'Hind', fontWeight: FontWeight.bold),
+          fontSize: 16.0, fontFamily: 'Arvo', fontWeight: FontWeight.bold),
     ),
   );
 
@@ -37,17 +37,17 @@ class MyThemes {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       textTheme: ButtonTextTheme.primary,
     ),
-    fontFamily: 'Montserrat',
+    fontFamily: 'Arvo',
     textTheme: TextTheme(
       headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
       title: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
       body1: TextStyle(
           fontSize: 16.0,
-          fontFamily: 'Hind',
+          fontFamily: 'Arvo',
           color: Colors.white,
           fontWeight: FontWeight.bold),
       body2: TextStyle(
-          fontSize: 16.0, fontFamily: 'Hind', fontWeight: FontWeight.bold),
+          fontSize: 16.0, fontFamily: 'Arvo', fontWeight: FontWeight.bold),
     ),
   );
 
@@ -60,17 +60,17 @@ class MyThemes {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       textTheme: ButtonTextTheme.primary,
     ),
-    fontFamily: 'Montserrat',
+    fontFamily: 'Arvo',
     textTheme: TextTheme(
       headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
       title: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
       body1: TextStyle(
           fontSize: 16.0,
-          fontFamily: 'Hind',
+          fontFamily: 'Arvo',
           color: Colors.white,
           fontWeight: FontWeight.bold),
       body2: TextStyle(
-          fontSize: 16.0, fontFamily: 'Hind', fontWeight: FontWeight.bold),
+          fontSize: 16.0, fontFamily: 'Arvo', fontWeight: FontWeight.bold),
     ),
   );
 
@@ -83,17 +83,17 @@ class MyThemes {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       textTheme: ButtonTextTheme.primary,
     ),
-    fontFamily: 'Montserrat',
+    fontFamily: 'Arvo',
     textTheme: TextTheme(
       headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
       title: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
       body1: TextStyle(
           fontSize: 16.0,
-          fontFamily: 'Hind',
+          fontFamily: 'Arvo',
           color: Colors.white,
           fontWeight: FontWeight.bold),
       body2: TextStyle(
-          fontSize: 16.0, fontFamily: 'Hind', fontWeight: FontWeight.bold),
+          fontSize: 16.0, fontFamily: 'Arvo', fontWeight: FontWeight.bold),
     ),
   );
 
@@ -106,17 +106,17 @@ class MyThemes {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       textTheme: ButtonTextTheme.primary,
     ),
-    fontFamily: 'Montserrat',
+    fontFamily: 'Arvo',
     textTheme: TextTheme(
       headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
       title: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
       body1: TextStyle(
           fontSize: 16.0,
-          fontFamily: 'Hind',
+          fontFamily: 'Arvo',
           color: Colors.white,
           fontWeight: FontWeight.bold),
       body2: TextStyle(
-          fontSize: 16.0, fontFamily: 'Hind', fontWeight: FontWeight.bold),
+          fontSize: 16.0, fontFamily: 'Arvo', fontWeight: FontWeight.bold),
     ),
   );
 
@@ -129,17 +129,17 @@ class MyThemes {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       textTheme: ButtonTextTheme.primary,
     ),
-    fontFamily: 'Montserrat',
+    fontFamily: 'Arvo',
     textTheme: TextTheme(
       headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
       title: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
       body1: TextStyle(
           fontSize: 16.0,
-          fontFamily: 'Hind',
+          fontFamily: 'Arvo',
           color: Colors.white,
           fontWeight: FontWeight.bold),
       body2: TextStyle(
-          fontSize: 16.0, fontFamily: 'Hind', fontWeight: FontWeight.bold),
+          fontSize: 16.0, fontFamily: 'Arvo', fontWeight: FontWeight.bold),
     ),
   );
 
