@@ -191,7 +191,7 @@ class _Landing2State extends State<Landing2>
 
   Future<void> _googleSignIn() async {
     setIsLoading(true);
-    final GoogleSignIn googleSignIn = new GoogleSignIn();
+    final GoogleSignIn googleSignIn = GoogleSignIn();
     AuthCredential authCredential =
     await getSignedInGoogleAccount(googleSignIn);
     FirebaseUser user = await signIn(authCredential);

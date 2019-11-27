@@ -37,7 +37,7 @@ dependencies:
   intl: ^0.16.0
   local_auth: ^0.6.0+1
   flutter_calendar_carousel: ^1.4.8
-
+  charts_flutter: ^0.8.1
 
 dev_dependencies:
   flutter_test:

@@ -90,4 +90,71 @@ class StoryController {
     }
     return stories;
   }
+
+  Future<List<int>> getRate() async {
+    FirebaseUser user = await UserControl().getCurrentUser();
+    DateTime date = DateTime.now().subtract(Duration(days: 31));
+    QuerySnapshot snapshot = await Firestore.instance
+        .collection(_mainCollection)
+        .where("userId", isEqualTo: user.uid)
+        .where("date", isGreaterThan: date)
+        .orderBy("date", descending: false)
+        .getDocuments();
+    Story temp;
+    List<int> feelings = List.filled(31, 0);
+    for (int i = 0; i < snapshot.documents.length; i++) {
+      temp = Story.fromMapObject(snapshot.documents[i].data);
+      feelings[temp.date.weekday - 1] = temp.feeling + 1;
+    }
+    return feelings;
+  }
+
+  Future<List<int>> getActivityCount(int days) async {
+    FirebaseUser user = await UserControl().getCurrentUser();
+    DateTime date = DateTime.now().subtract(Duration(days: days));
+    QuerySnapshot snapshot = await Firestore.instance
+        .collection(_mainCollection)
+        .where("userId", isEqualTo: user.uid)
+        .where("date", isGreaterThan: date)
+        .orderBy("date", descending: false)
+        .getDocuments();
+    String temp;
+    List<int> activity = List.filled(9, 0);
+    for (int i = 0; i < snapshot.documents.length; i++) {
+      temp = Story
+          .fromMapObject(snapshot.documents[i].data)
+          .activity;
+
+      switch (temp.toLowerCase()) {
+        case "work":
+          activity[0]++;
+          break;
+        case "family":
+          activity[1]++;
+          break;
+        case "education":
+          activity[2]++;
+          break;
+        case "relationship":
+          activity[3]++;
+          break;
+        case "friends":
+          activity[4]++;
+          break;
+        case "traveling":
+          activity[5]++;
+          break;
+        case "gaming":
+          activity[6]++;
+          break;
+        case "sports":
+          activity[7]++;
+          break;
+        default:
+          activity[8]++;
+          break;
+      }
+    }
+    return activity;
+  }
 }

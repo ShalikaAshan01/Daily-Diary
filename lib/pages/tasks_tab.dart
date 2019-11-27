@@ -1,3 +1,4 @@
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:daily_diary/controllers/story_controller.dart';
 import 'package:daily_diary/controllers/user_control.dart';
 import 'package:daily_diary/model/story.dart';
@@ -39,6 +40,9 @@ class _TaskTabState extends State<TasksTab> {
   ];
   PageController _ctrl;
   int _currentPage = 0;
+  var _formatter2 = DateFormat('MMM dd');
+  double _monthlyRate = 0;
+  double _weeklyRate = 0;
 
   getStories() {
     StoryController().getStoriesAsList().then((List<Story> story) {
@@ -64,6 +68,7 @@ class _TaskTabState extends State<TasksTab> {
         });
     });
     _pageController();
+    _setChartValues();
   }
 
   @override
@@ -73,6 +78,7 @@ class _TaskTabState extends State<TasksTab> {
       backgroundColor: _color1,
       body: ListView(
         children: <Widget>[
+          _chartBuild(context),
           Container(
             padding: EdgeInsets.only(left: 15, top: 25),
             child: Text(
@@ -91,10 +97,272 @@ class _TaskTabState extends State<TasksTab> {
           SizedBox(
             height: 20,
           ),
-          Container(height: 600, child: _favouriteBuilder())
+          Container(height: 600, child: _favouriteBuilder()),
         ],
       ),
     );
+  }
+
+  List<Rate> _weeklyRates = List();
+  List<Rate> _monthlyRates = List();
+  List<Rate> _weeklyPie = List();
+  List<Rate> _monthlyPie = List();
+  static bool _weekly = true;
+
+  void _setChartValues() async {
+    List<int> feelings = await StoryController().getRate();
+    List<Rate> tempWeeklyRate = List();
+    List<Rate> tempMonthlyRate = List();
+    int tempMonth = 0;
+    int tempWeek = 0;
+    for (int i = 0; i < feelings.length - 1; i++) {
+      tempMonth += feelings[i];
+      tempMonthlyRate.add(Rate(i + 1, feelings[i]));
+      if (i < 7) {
+        tempWeek += feelings[i];
+        tempWeeklyRate.add(Rate(i + 1, feelings[i]));
+      }
+    }
+
+    List<int> activity = await StoryController().getActivityCount(7);
+    List<int> activity1 = await StoryController().getActivityCount(31);
+
+    List<Rate> tempPei = List();
+    List<Rate> tempPei2 = List();
+
+    for (int i = 0; i < activity.length; i++) {
+      tempPei.add(Rate(i, activity[i]));
+    }
+    for (int i = 0; i < activity1.length; i++) {
+      tempPei2.add(Rate(i, activity1[i]));
+    }
+    if (mounted)
+      setState(() {
+        _weeklyRates = tempWeeklyRate;
+        _monthlyRates = tempMonthlyRate;
+        _weeklyPie = tempPei;
+        _monthlyPie = tempPei2;
+        _monthlyRate = tempMonth / 31.0;
+        _weeklyRate = tempWeek / 7.0;
+      });
+  }
+
+  Widget _chartBuild(BuildContext context) {
+    Color primary = Theme
+        .of(context)
+        .primaryColor;
+    return Container(
+      child: Stack(
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+                color: Theme
+                    .of(context)
+                    .primaryColor,
+                borderRadius: BorderRadius.circular(25)
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Center(
+                  child: Container(
+                    margin: EdgeInsets.only(top: 15),
+                    decoration: BoxDecoration(
+                        color: Colors.white38,
+                        borderRadius: BorderRadius.circular(25)),
+                    width: 200,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _weekly = true;
+                            });
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color:
+                                _weekly ? Colors.white : Colors.transparent,
+                                borderRadius: BorderRadius.circular(25)),
+                            padding: const EdgeInsets.all(8.0),
+                            width: 100,
+                            child: Text(
+                              "weekly",
+                              style: TextStyle(
+                                  color: _weekly ? primary : Colors.white),
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _weekly = false;
+                            });
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color:
+                                !_weekly ? Colors.white : Colors.transparent,
+                                borderRadius: BorderRadius.circular(25)),
+                            padding: const EdgeInsets.all(8.0),
+                            width: 100,
+                            child: Text(
+                              "monthly",
+                              style: TextStyle(
+                                  color: !_weekly ? primary : Colors.white),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: 12, left: 15),
+                  child: Text(
+                    _weekly ? "This Week" : "This Month",
+                    style: TextStyle(fontSize: 22),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: 12, left: 15),
+                  child: Text(
+                    _weekly
+                        ? "${_formatter2.format(DateTime.now())} - ${_formatter2
+                        .format(DateTime.now().subtract(Duration(days: 7)))}"
+                        : "${_formatter2.format(DateTime.now())} - ${_formatter2
+                        .format(DateTime.now().subtract(Duration(days: 31)))}",
+                    style: TextStyle(fontSize: 16, color: Colors.white70),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: 12, left: 15),
+                  child: Text(_weekly
+                      ? "${_weeklyRate.toStringAsFixed(2)} %"
+                      : "${_monthlyRate.toStringAsFixed(2)} %",
+                    style: TextStyle(fontSize: 25),),),
+                Container(
+                  padding: EdgeInsets.only(top: 12, left: 15),
+                  child: Text(
+                    _weekly
+                        ? "Your  weekly Rating".toUpperCase()
+                        : "Your monthly rating".toUpperCase(),
+                    style: TextStyle(fontSize: 13, color: Colors.white38),
+                  ),
+                ),
+                Container(
+                  child: SizedBox(
+                    height: 200.0,
+                    child: _rateChart(),
+                  ),
+                ),
+                SizedBox(height: 150,)
+              ],
+            ),
+          ),
+          Center(
+            child: Container(
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.9,
+              decoration: BoxDecoration(
+                  color: _color1,
+                  borderRadius: BorderRadius.circular(25)
+              ),
+              margin: EdgeInsets.only(top: 390),
+              padding: EdgeInsets.only(top: 20),
+              child: SizedBox(
+                height: 200.0,
+                child: _pieCart(),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _rateChart() {
+    var series1 = [
+      charts.Series<Rate, int>(
+        id: "weekly_rate",
+        colorFn: (_, __) => charts.MaterialPalette.white,
+        domainFn: (Rate rate, _) => rate.day,
+        measureFn: (Rate rate, _) => rate.rate,
+        data: _weeklyRates,
+      )
+    ];
+    var series2 = [
+      charts.Series<Rate, int>(
+        id: "monthly_rate",
+        colorFn: (_, __) => charts.MaterialPalette.white,
+        domainFn: (Rate rate, _) => rate.day,
+        measureFn: (Rate rate, _) => rate.rate,
+        data: _monthlyRates,
+      )
+    ];
+    var viewport1 = charts.NumericExtents(1.0, 7.0);
+    var viewport2 = charts.NumericExtents(1.0, 30.0);
+
+    var chart = charts.LineChart(
+      _weekly ? series1 : series2,
+      animate: true,
+      domainAxis: charts.NumericAxisSpec(
+        viewport: _weekly ? viewport1 : viewport2,
+        renderSpec: charts.GridlineRendererSpec(
+          axisLineStyle: charts.LineStyleSpec(
+            color: charts.MaterialPalette.transparent,
+          ),
+          lineStyle: charts.LineStyleSpec(
+            color: charts.MaterialPalette.transparent,
+          ),
+          labelStyle: charts.TextStyleSpec(
+              fontSize: 10, color: charts.MaterialPalette.transparent),
+        ),
+      ),
+      primaryMeasureAxis: charts.NumericAxisSpec(
+          renderSpec: charts.GridlineRendererSpec(
+              labelStyle: charts.TextStyleSpec(
+                  fontSize: 10, color: charts.MaterialPalette.transparent),
+              lineStyle: charts.LineStyleSpec(
+                  thickness: 0, color: charts.MaterialPalette.transparent))),
+      behaviors: [charts.PanAndZoomBehavior()],
+    );
+    return chart;
+  }
+
+  Widget _pieCart() {
+    List<String> act = [
+      "work",
+      "family",
+      "education",
+      "relationship",
+      "friends",
+      "traveling",
+      "gaming",
+      "sports",
+      "other"
+    ];
+    var pie = [
+      charts.Series<Rate, int>(
+        id: 'pie',
+        domainFn: (Rate rate, _) => rate.day,
+        measureFn: (Rate rate, _) => rate.rate,
+        data: _weekly ? _weeklyPie : _monthlyPie,
+        // Set a label accessor to control the text of the arc label.
+        labelAccessorFn: (Rate row, _) => '${act[row.day].toUpperCase()}',
+      )
+    ];
+    return charts.PieChart(pie,
+        animate: false,
+        defaultRenderer: new charts.ArcRendererConfig(arcRendererDecorators: [
+          new charts.ArcLabelDecorator(
+              labelPosition: charts.ArcLabelPosition.outside)
+        ]));
   }
 
   Widget _customCalender(BuildContext context) {
@@ -215,6 +483,7 @@ class _TaskTabState extends State<TasksTab> {
                 ]),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Spacer(),
                 Icon(
@@ -224,7 +493,8 @@ class _TaskTabState extends State<TasksTab> {
                 SizedBox(
                   height: 15,
                 ),
-                Text("Whoops!, There are no favourite stories"),
+                Center(child: Text("Whoops!, There are no favourite stories",
+                  textAlign: TextAlign.center,)),
                 Spacer(),
               ],
             ),
@@ -269,8 +539,8 @@ class _TaskTabState extends State<TasksTab> {
               context,
               MaterialPageRoute(
                   builder: (context) => ShowStory(
-                        story: _story,
-                      )));
+                    story: _story,
+                  )));
         },
         onDoubleTap: () {
           StoryController().updateFavouriteItem(!_story.favourite, _story.id);
@@ -278,7 +548,7 @@ class _TaskTabState extends State<TasksTab> {
         child: AnimatedContainer(
             duration: Duration(milliseconds: 500),
             margin:
-                EdgeInsets.only(top: top, bottom: bottom, right: 20, left: 20),
+            EdgeInsets.only(top: top, bottom: bottom, right: 20, left: 20),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 image: DecorationImage(
@@ -373,4 +643,11 @@ class _TaskTabState extends State<TasksTab> {
       viewportFraction: 0.8,
     );
   }
+}
+
+class Rate {
+  final int day;
+  final int rate;
+
+  Rate(this.day, this.rate);
 }
