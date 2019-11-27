@@ -73,10 +73,14 @@ class _TaskTabState extends State<TasksTab> {
 
   @override
   Widget build(BuildContext context) {
+    int length = -1;
+    if (_stories != null) {
+      length = _stories.length;
+    }
     getStories();
     return Scaffold(
       backgroundColor: _color1,
-      body: ListView(
+      body: length != 0 ? ListView(
         children: <Widget>[
           _chartBuild(context),
           Container(
@@ -99,7 +103,9 @@ class _TaskTabState extends State<TasksTab> {
           ),
           Container(height: 600, child: _favouriteBuilder()),
         ],
-      ),
+      ) : Center(child: Text(
+        "Looks like you don't have any stories", style: TextStyle(fontSize: 20),
+        textAlign: TextAlign.center,),),
     );
   }
 
