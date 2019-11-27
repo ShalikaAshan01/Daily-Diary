@@ -42,6 +42,17 @@ class _AddStories2State extends State<AddStories2> {
   ];
   String _activity = "OTHER";
   bool isSaving = false;
+  List<bool> _active = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true
+  ];
 
   Future<bool> _onWillPop() {
     return showDialog(
@@ -198,15 +209,16 @@ class _AddStories2State extends State<AddStories2> {
               childAspectRatio: 2 / 1.5,
               crossAxisCount: 3,
               children: <Widget>[
-                _secondPageItem(FontAwesomeIcons.building, "work"),
-                _secondPageItem(FontAwesomeIcons.home, "family"),
-                _secondPageItem(FontAwesomeIcons.graduationCap, "education"),
-                _secondPageItem(FontAwesomeIcons.handsHelping, "relationship"),
-                _secondPageItem(FontAwesomeIcons.users, "friends"),
-                _secondPageItem(FontAwesomeIcons.locationArrow, "traveling"),
-                _secondPageItem(FontAwesomeIcons.gamepad, "gaming"),
-                _secondPageItem(FontAwesomeIcons.running, "sports"),
-                _secondPageItem(FontAwesomeIcons.boxOpen, "other"),
+                _secondPageItem(FontAwesomeIcons.building, "work", 0),
+                _secondPageItem(FontAwesomeIcons.home, "family", 1),
+                _secondPageItem(FontAwesomeIcons.graduationCap, "education", 2),
+                _secondPageItem(
+                    FontAwesomeIcons.handsHelping, "relationship", 3),
+                _secondPageItem(FontAwesomeIcons.users, "friends", 4),
+                _secondPageItem(FontAwesomeIcons.locationArrow, "traveling", 5),
+                _secondPageItem(FontAwesomeIcons.gamepad, "gaming", 6),
+                _secondPageItem(FontAwesomeIcons.running, "sports", 7),
+                _secondPageItem(FontAwesomeIcons.boxOpen, "other", 8),
               ],
             ),
           ),
@@ -225,29 +237,38 @@ class _AddStories2State extends State<AddStories2> {
     );
   }
 
-  Widget _secondPageItem(IconData _iconData, String _text) {
-    Color _inactiveColor = Colors.white;
-    Color color = _inactiveColor;
+  Widget _secondPageItem(IconData _iconData, String _text, int count) {
+    Color _inactiveColor = Colors.white70;
+    Color _activeColor = Colors.white;
     return GestureDetector(
       onTap: () {
         setState(() {
           _activity = _text.toUpperCase();
+          for (int i = 0; i < _active.length; i++)
+            _active[i] = false;
+          setState(() {
+            _active[count] = true;
+          });
         });
       },
-      child: Column(
-        children: <Widget>[
-          Icon(
-            _iconData,
-            color: color,
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Text(
-            _text.toLowerCase(),
-            style: TextStyle(color: color, fontWeight: FontWeight.normal),
-          )
-        ],
+      child: Container(
+        child: Column(
+          children: <Widget>[
+            Icon(
+              _iconData,
+              color: _active[count] ? _activeColor : _inactiveColor,
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              _text.toLowerCase(),
+              style: TextStyle(
+                  color: _active[count] ? _activeColor : _inactiveColor,
+                  fontWeight: FontWeight.normal),
+            )
+          ],
+        ),
       ),
     );
   }

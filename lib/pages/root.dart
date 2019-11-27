@@ -30,6 +30,9 @@ class _RootState extends State<Root> {
       return Scaffold(
         backgroundColor: Color(0xFF233355),
         body: Container(
+          width: double.infinity,
+          height: double.infinity,
+          alignment: Alignment.center,
           child: AvatarGlow(
             endRadius: 90,
             duration: Duration(seconds: 2),
