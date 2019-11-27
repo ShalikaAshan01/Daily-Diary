@@ -16,6 +16,7 @@ class _DelayedAnimationState extends State<DelayedAnimation>
     with TickerProviderStateMixin {
   AnimationController _controller;
   Animation<Offset> _animOffset;
+  bool _dispose = false;
 
   @override
   void initState() {
@@ -33,13 +34,14 @@ class _DelayedAnimationState extends State<DelayedAnimation>
       _controller.forward();
     } else {
       Timer(Duration(milliseconds: widget.delay), () {
-        _controller.forward();
+        if (!_dispose) _controller.forward();
       });
     }
   }
 
   @override
   void dispose() {
+    _dispose = true;
     _controller.dispose();
     super.dispose();
   }

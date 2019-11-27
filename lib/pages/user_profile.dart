@@ -31,9 +31,9 @@ class UserProfile extends StatelessWidget {
             ),
             Container(
               alignment: Alignment.center,
-              margin: EdgeInsets.only(left: 150, top: 180),
+              margin: EdgeInsets.only(left: 175, top: 180),
               child: Name(
-                textStyle: TextStyle(fontSize: 25),
+                textStyle: TextStyle(fontSize: 20),
               ),
             ),
             Container(
