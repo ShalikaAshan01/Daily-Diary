@@ -66,7 +66,6 @@ class _TaskTabState extends State<TasksTab> {
     _pageController();
   }
 
-
   @override
   Widget build(BuildContext context) {
     getStories();
@@ -113,8 +112,8 @@ class _TaskTabState extends State<TasksTab> {
                   CommonWidgets().slideUpNavigation(ShowStoryWithout(
                     story: _stories[index],
                   )));
-            } else
-            if (formatter.format(date) == formatter.format(DateTime.now())) {
+            } else if (formatter.format(date) ==
+                formatter.format(DateTime.now())) {
               print("gsegesg");
             } else if (date.isBefore(DateTime.now())) {
               Navigator.push(

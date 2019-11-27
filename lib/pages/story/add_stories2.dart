@@ -49,7 +49,8 @@ class _AddStories2State extends State<AddStories2> {
         builder: (context) =>
             MyAlert(
               title: "Are you sure?",
-              content: "This story will not be saved and you cannot get it back!",
+              content:
+              "This story will not be saved and you cannot get it back!",
               actions: <Widget>[
                 FlatButton(
                   onPressed: () => Navigator.of(context).pop(false),
@@ -60,8 +61,8 @@ class _AddStories2State extends State<AddStories2> {
                   child: Text('OK'),
                 ),
               ],
-            )
-    ) ?? false;
+            )) ??
+        false;
   }
 
   @override

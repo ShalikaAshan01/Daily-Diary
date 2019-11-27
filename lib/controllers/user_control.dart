@@ -23,7 +23,7 @@ class UserControl {
     return preferences.getString("name");
   }
 
-  Future<FirebaseUser> getCurrentUser(){
+  Future<FirebaseUser> getCurrentUser() {
     return FirebaseAuth.instance.currentUser();
   }
 

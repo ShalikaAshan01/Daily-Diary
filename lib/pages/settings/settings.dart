@@ -74,25 +74,24 @@ class _SettingsState extends State<Settings> {
                 padding: EdgeInsets.only(top: 30),
                 alignment: Alignment.topRight,
                 child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      gradient: LinearGradient(
-                        colors: [
-                          Theme
-                              .of(context)
-                              .primaryColor,
-                          Theme
-                              .of(context)
-                              .accentColor,
-                        ],
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomRight,
-                      )),
-                  width: 150,
-                  height: 150,
-                  margin: EdgeInsets.only(right: 30),
-                    child: UserImage()
-                ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        gradient: LinearGradient(
+                          colors: [
+                            Theme
+                                .of(context)
+                                .primaryColor,
+                            Theme
+                                .of(context)
+                                .accentColor,
+                          ],
+                          begin: Alignment.topRight,
+                          end: Alignment.bottomRight,
+                        )),
+                    width: 150,
+                    height: 150,
+                    margin: EdgeInsets.only(right: 30),
+                    child: UserImage()),
               ),
               _customNameCard(),
               Container(
@@ -105,8 +104,7 @@ class _SettingsState extends State<Settings> {
                     value: _biometrics,
                     onChanged: (_) async {
                       await _setBiometrics();
-                    }
-                ),
+                    }),
               ),
               Container(
                 margin: EdgeInsets.only(top: 320),
@@ -118,8 +116,7 @@ class _SettingsState extends State<Settings> {
                     value: _notification,
                     onChanged: (_) async {
                       await _setNotifications();
-                    }
-                ),
+                    }),
               ),
               Container(
                 width: MediaQuery
@@ -132,18 +129,15 @@ class _SettingsState extends State<Settings> {
                 child: AnimatedContainer(
                   duration: Duration(milliseconds: 500),
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [
-                            Theme
-                                .of(context)
-                                .primaryColor,
-                            Theme
-                                .of(context)
-                                .accentColor,
-                          ]
-                      ),
-                      borderRadius: BorderRadius.circular(15)
-                  ),
+                      gradient: LinearGradient(colors: [
+                        Theme
+                            .of(context)
+                            .primaryColor,
+                        Theme
+                            .of(context)
+                            .accentColor,
+                      ]),
+                      borderRadius: BorderRadius.circular(15)),
                   child: ListView(
                       scrollDirection: Axis.horizontal,
                       padding: EdgeInsets.all(10),
@@ -157,8 +151,7 @@ class _SettingsState extends State<Settings> {
                                       .changeTheme(MyThemeKeys.Theme1);
                                 });
                               },
-                              themeData: MyThemes.theme1
-                          ),
+                              themeData: MyThemes.theme1),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -169,8 +162,7 @@ class _SettingsState extends State<Settings> {
                                       .changeTheme(MyThemeKeys.Theme2);
                                 });
                               },
-                              themeData: MyThemes.theme2
-                          ),
+                              themeData: MyThemes.theme2),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -181,8 +173,7 @@ class _SettingsState extends State<Settings> {
                                       .changeTheme(MyThemeKeys.Theme3);
                                 });
                               },
-                              themeData: MyThemes.theme3
-                          ),
+                              themeData: MyThemes.theme3),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -193,8 +184,7 @@ class _SettingsState extends State<Settings> {
                                       .changeTheme(MyThemeKeys.Theme4);
                                 });
                               },
-                              themeData: MyThemes.theme4
-                          ),
+                              themeData: MyThemes.theme4),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -205,8 +195,7 @@ class _SettingsState extends State<Settings> {
                                       .changeTheme(MyThemeKeys.Theme5);
                                 });
                               },
-                              themeData: MyThemes.theme5
-                          ),
+                              themeData: MyThemes.theme5),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -217,11 +206,9 @@ class _SettingsState extends State<Settings> {
                                       .changeTheme(MyThemeKeys.Theme6);
                                 });
                               },
-                              themeData: MyThemes.theme6
-                          ),
+                              themeData: MyThemes.theme6),
                         ),
-                      ]
-                  ),
+                      ]),
                 ),
               ),
               Container(
@@ -234,13 +221,15 @@ class _SettingsState extends State<Settings> {
                     Navigator.of(context).popUntil((route) => route.isFirst);
                     Navigator.pushReplacementNamed(context, "/landing1");
                   },
-                  child: Text("LOGOUT", style: Theme
-                      .of(context)
-                      .textTheme
-                      .body1,),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(150)
+                  child: Text(
+                    "LOGOUT",
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .body1,
                   ),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(150)),
                 ),
               )
             ],

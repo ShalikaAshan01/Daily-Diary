@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class CustomTheme extends StatefulWidget {
   final Widget child;
   final MyThemeKeys initialThemeKey;
+
   const CustomTheme({
     Key key,
     this.initialThemeKey,
@@ -16,14 +17,12 @@ class CustomTheme extends StatefulWidget {
   CustomThemeState createState() => CustomThemeState();
 
   static ThemeData of(BuildContext context) {
-    _CustomTheme inherited =
-        (context.inheritFromWidgetOfExactType(_CustomTheme) as _CustomTheme);
+    _CustomTheme inherited = (context.dependOnInheritedWidgetOfExactType());
     return inherited.data.theme;
   }
 
   static CustomThemeState instanceOf(BuildContext context) {
-    _CustomTheme inherited =
-        (context.inheritFromWidgetOfExactType(_CustomTheme) as _CustomTheme);
+    _CustomTheme inherited = (context.dependOnInheritedWidgetOfExactType());
     return inherited.data;
   }
 }

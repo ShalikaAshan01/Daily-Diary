@@ -162,8 +162,7 @@ class _Landing3State extends State<Landing3> {
                     Icons.arrow_back_ios,
                     color: Colors.white54,
                   ),
-                  onPressed: () {
-                  },
+                  onPressed: () {},
                 ),
                 Spacer(),
                 IconButton(

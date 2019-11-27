@@ -23,7 +23,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   String _text = "Good Morning";
   String _addText = "Add today's story";
   Image _image = Image.asset(
-    "assets/imgs/sunrise.png", width: 55, height: 55, color: Colors.white30,);
+    "assets/imgs/sunrise.png",
+    width: 55,
+    height: 55,
+    color: Colors.white30,
+  );
   DateTime _addStoryDate;
   List<String> _months = [
     "January",
@@ -93,8 +97,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                           delay: delayedAmount,
                           child: Text(
                             _text,
-                            style: TextStyle(fontSize: 25,
-                                color: Colors.white60),
+                            style: TextStyle(
+                                fontSize: 25, color: Colors.white60),
                           )),
                       SizedBox(
                         height: 13,
@@ -136,16 +140,16 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                             if (currentIdx == 0) {
                               return _firstPage(active);
                             }
-                            Story story = Story.fromMapObject(
-                                stories[currentIdx - 1].data);
-                            story.id =
-                                stories[currentIdx - 1].reference.documentID;
+                            Story story =
+                            Story.fromMapObject(stories[currentIdx - 1].data);
+                            story.id = stories[currentIdx - 1].reference
+                                .documentID;
 
                             if (_addStoryDate
                                 .difference(story.date)
                                 .inDays == 0) {
-                              DateTime newDate = story.date.subtract(
-                                  Duration(days: 1));
+                              DateTime newDate =
+                              story.date.subtract(Duration(days: 1));
                               _addStoryDate = newDate;
                               _addText =
                               "add ${_months[newDate.month - 1].substring(
@@ -154,8 +158,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                             return _customCards(story, active);
                           },
                         );
-                      }
-                  ),
+                      }),
                 ),
                 Container(
                   color: Colors.transparent,
@@ -165,7 +168,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   alignment: Alignment.topRight,
                   child: GestureDetector(
                       onTap: () {
-                        Navigator.push(context,
+                        Navigator.push(
+                            context,
                             CommonWidgets().slideUpNavigation(Settings()));
                       },
                       child: Container(
@@ -174,8 +178,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                           width: 65,
                           height: 45,
                           child: Icon(
-                            FontAwesomeIcons.slidersH, color: Colors.white,
-                            size: 27,))),
+                            FontAwesomeIcons.slidersH,
+                            color: Colors.white,
+                            size: 27,
+                          ))),
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 15, top: size.height * 0.08),
@@ -186,7 +192,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           ),
         ));
   }
-
 
   Widget _firstPage(bool active) {
     Color _primary = Theme.of(context).primaryColor;
@@ -211,7 +216,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 PageRouteBuilder(
                   pageBuilder: (c, a1, a2) =>
                       AddStories(
-                        greeting: _text, date: _addStoryDate,
+                        greeting: _text,
+                        date: _addStoryDate,
                       ),
                   transitionsBuilder: (c, anim, a2, child) =>
                       FadeTransition(opacity: anim, child: child),
@@ -267,16 +273,21 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       tag: _story.id,
       child: GestureDetector(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(
-              builder: (context) => ShowStory(story: _story,)));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      ShowStory(
+                        story: _story,
+                      )));
         },
         onDoubleTap: () {
           StoryController().updateFavouriteItem(!_story.favourite, _story.id);
         },
         child: AnimatedContainer(
             duration: Duration(milliseconds: 500),
-            margin: EdgeInsets.only(
-                top: top, bottom: bottom, right: 20, left: 20),
+            margin:
+            EdgeInsets.only(top: top, bottom: bottom, right: 20, left: 20),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 image: DecorationImage(
@@ -323,11 +334,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                         Spacer(),
                         IconButton(
                           icon: Icon(
-                            _story.favourite ? Icons.favorite : Icons
-                                .favorite_border,
+                            _story.favourite
+                                ? Icons.favorite
+                                : Icons.favorite_border,
                           ),
-                          color: _story.favourite ? Colors.redAccent : Colors
-                              .white54,
+                          color: _story.favourite
+                              ? Colors.redAccent
+                              : Colors.white54,
                           splashColor: Colors.redAccent,
                           onPressed: () {
                             StoryController().updateFavouriteItem(
@@ -351,12 +364,15 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       FontAwesomeIcons.smile,
       FontAwesomeIcons.grin
     ];
-    if (val == 4)
-      val = 3;
+    if (val == 4) val = 3;
     return Container(
       padding: EdgeInsets.only(bottom: 5, right: 5),
       alignment: Alignment.bottomRight,
-      child: Icon(icons[val], color: Colors.white38, size: 120,),
+      child: Icon(
+        icons[val],
+        color: Colors.white38,
+        size: 120,
+      ),
     );
   }
 
@@ -374,43 +390,53 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           seconds: 1,
         ))
       ..addListener(() {
-        if (mounted)
-          setState(() {});
+        if (mounted) setState(() {});
       });
   }
 
   void _greeting() {
     int hour = DateTime.now().hour;
-    if (mounted)
-      if (hour > 2 && hour < 12) {
-        setState(() {
-          _text = "Good morning,";
-          _image = Image.asset("assets/imgs/sunrise.png", width: 55,
-            height: 55,
-            color: Colors.white30,);
-        });
-      } else if (hour < 17) {
-        setState(() {
-          _text = "Good afternoon,";
-          _image = Image.asset("assets/imgs/sun.png", width: 55,
-            height: 55,
-            color: Colors.white30,);
-        });
-      } else if (hour < 20) {
-        setState(() {
-          _text = "Good evening,";
-          _image = Image.asset("assets/imgs/sun_cloud.png", width: 55,
-            height: 55,
-            color: Colors.white30,);
-        });
-      } else {
-        setState(() {
-          _text = "Good night,";
-          _image = Image.asset("assets/imgs/moon.png", width: 55,
-            height: 55,
-            color: Colors.white30,);
-        });
-      }
+    if (mounted) if (hour > 2 && hour < 12) {
+      setState(() {
+        _text = "Good morning,";
+        _image = Image.asset(
+          "assets/imgs/sunrise.png",
+          width: 55,
+          height: 55,
+          color: Colors.white30,
+        );
+      });
+    } else if (hour < 17) {
+      setState(() {
+        _text = "Good afternoon,";
+        _image = Image.asset(
+          "assets/imgs/sun.png",
+          width: 55,
+          height: 55,
+          color: Colors.white30,
+        );
+      });
+    } else if (hour < 20) {
+      setState(() {
+        _text = "Good evening,";
+        _image = Image.asset(
+          "assets/imgs/sun_cloud.png",
+          width: 55,
+          height: 55,
+          color: Colors.white30,
+        );
+      });
+    } else {
+      setState(() {
+        _text = "Good night,";
+        _image = Image.asset(
+          "assets/imgs/moon.png",
+          width: 55,
+          height: 55,
+          color: Colors.white30,
+        );
+      });
+    }
   }
 }
 

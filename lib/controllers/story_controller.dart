@@ -32,21 +32,23 @@ class StoryController {
   }
 
   void updateFavouriteItem(bool value, String id) async {
-    await Firestore.instance.collection(_mainCollection)
+    await Firestore.instance
+        .collection(_mainCollection)
         .document(id)
-        .updateData({
-      "favourite": value
-    });
+        .updateData({"favourite": value});
   }
 
   Future<void> deleteStory(String id) async {
-    return await Firestore.instance.collection(_mainCollection)
+    return await Firestore.instance
+        .collection(_mainCollection)
         .document(id)
         .delete();
   }
 
   Future<void> updateStory(Story _story, String id) async {
-    return await Firestore.instance.collection(_mainCollection).document(id)
+    return await Firestore.instance
+        .collection(_mainCollection)
+        .document(id)
         .updateData(_story.toMap());
   }
 
@@ -61,11 +63,14 @@ class StoryController {
 
   Future<List> getCounts() async {
     FirebaseUser user = await UserControl().getCurrentUser();
-    QuerySnapshot totalSnap = await Firestore.instance.collection(
-        _mainCollection).where("userId", isEqualTo: user.uid).getDocuments();
-    QuerySnapshot favSnap = await Firestore.instance.collection(_mainCollection)
-        .where("userId", isEqualTo: user.uid).where(
-        "favourite", isEqualTo: true)
+    QuerySnapshot totalSnap = await Firestore.instance
+        .collection(_mainCollection)
+        .where("userId", isEqualTo: user.uid)
+        .getDocuments();
+    QuerySnapshot favSnap = await Firestore.instance
+        .collection(_mainCollection)
+        .where("userId", isEqualTo: user.uid)
+        .where("favourite", isEqualTo: true)
         .getDocuments();
     return [totalSnap.documents.length, favSnap.documents.length];
   }
@@ -75,7 +80,8 @@ class StoryController {
     QuerySnapshot snapshot = await Firestore.instance
         .collection(_mainCollection)
         .where('userId', isEqualTo: user.uid)
-        .orderBy("date", descending: true).getDocuments();
+        .orderBy("date", descending: true)
+        .getDocuments();
 
     List<Story> stories = List();
 
@@ -84,5 +90,4 @@ class StoryController {
     }
     return stories;
   }
-
 }

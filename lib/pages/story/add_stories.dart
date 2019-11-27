@@ -14,6 +14,7 @@ class AddStories extends StatefulWidget {
 
   const AddStories({Key key, @required this.greeting, this.date})
       : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _AddStoriesState();
 }

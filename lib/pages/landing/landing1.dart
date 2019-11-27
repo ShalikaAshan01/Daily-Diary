@@ -4,6 +4,7 @@ import 'package:daily_diary/widgets/delayed_animation.dart';
 import 'package:daily_diary/widgets/logo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'landing2.dart';
 
 class Landing1 extends StatefulWidget {

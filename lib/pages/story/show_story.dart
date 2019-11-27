@@ -17,7 +17,6 @@ class ShowStory extends StatefulWidget {
 
 class _ShowStoryState extends State<ShowStory> {
   Color _color1 = Color(0xFF233355);
-  Color _color2 = Color(0xFF29395A);
   Color _color3 = Color(0xFF294261);
   bool showMenu = false;
   List<String> _months = [
@@ -41,8 +40,7 @@ class _ShowStoryState extends State<ShowStory> {
       backgroundColor: _color1,
       body: Stack(
         children: <Widget>[
-          Hero(
-              tag: "feeling", child: _buildFeeling()),
+          Hero(tag: "feeling", child: _buildFeeling()),
           _buildBody(),
         ],
       ),
@@ -136,9 +134,13 @@ class _ShowStoryState extends State<ShowStory> {
                   ),
                   _menuItem(Icons.edit, () {
                     if (showMenu)
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) =>
-                              EditStory(story: widget.story,)));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  EditStory(
+                                    story: widget.story,
+                                  )));
                   }),
                   _menuItem(Icons.delete, () {
                     if (showMenu) {
@@ -147,15 +149,16 @@ class _ShowStoryState extends State<ShowStory> {
                           builder: (_) {
                             return MyAlert(
                               title: "Are you sure?",
-                              content: "Are you certain you want to delete this story? This action is irreversible and the story will be lost forever!",
+                              content:
+                              "Are you certain you want to delete this story? This action is irreversible and the story will be lost forever!",
                               actions: <Widget>[
                                 FlatButton(
                                   child: Text("Yes"),
                                   onPressed: () async {
-                                    await StoryController().deleteStory(
-                                        widget.story.id);
-                                    Navigator.of(context).popUntil((
-                                        route) => route.isFirst);
+                                    await StoryController()
+                                        .deleteStory(widget.story.id);
+                                    Navigator.of(context)
+                                        .popUntil((route) => route.isFirst);
                                   },
                                 ),
                                 FlatButton(
@@ -164,11 +167,9 @@ class _ShowStoryState extends State<ShowStory> {
                                     Navigator.pop(context);
                                   },
                                 ),
-
                               ],
                             );
-                          }
-                      );
+                          });
                     }
                   }),
                 ],
@@ -181,7 +182,8 @@ class _ShowStoryState extends State<ShowStory> {
               padding: EdgeInsets.only(left: 22, top: 25),
               child: Text(
                 "${date.day}, ${_months[date.month - 1]} ${date.year}",
-                style: TextStyle(color: Colors.white24,
+                style: TextStyle(
+                    color: Colors.white24,
                     fontSize: 22,
                     decoration: TextDecoration.none),
               ),

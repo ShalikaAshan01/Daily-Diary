@@ -70,7 +70,7 @@ class _Landing4State extends State<Landing4> {
                   await saveReminder(true);
                   Navigator.of(context).popUntil((route) => route.isFirst);
                   Navigator.pushReplacement(
-                      context, commonWidgets.slideUpNavigation(root()));
+                      context, commonWidgets.slideUpNavigation(Root()));
                 },
                 elevation: 20,
                 color: Colors.white,
@@ -94,7 +94,7 @@ class _Landing4State extends State<Landing4> {
                     CommonWidgets commonWidgets = CommonWidgets();
                     Navigator.of(context).popUntil((route) => route.isFirst);
                     saveReminder(false).then((_) => Navigator.pushReplacement(
-                        context, commonWidgets.slideUpNavigation(root())));
+                        context, commonWidgets.slideUpNavigation(Root())));
                   });
                 },
                 child: Center(

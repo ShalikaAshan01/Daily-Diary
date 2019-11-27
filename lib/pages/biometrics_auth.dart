@@ -12,7 +12,6 @@ class BiometricsAuth extends StatefulWidget {
 
 class _BiometricsAuthState extends State<BiometricsAuth> {
   final LocalAuthentication _localAuthentication = LocalAuthentication();
-  String _authenticated = "Authenticating...";
 
   Future<bool> _authenticateMe() async {
     bool authenticated = false;
@@ -44,8 +43,7 @@ class _BiometricsAuthState extends State<BiometricsAuth> {
   Widget build(BuildContext context) {
     _authenticateMe().then((val) {
       if (val) {
-        Navigator.pushReplacement(
-            context,
+        Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => MyBottomNavigationBar()));
       }
     });
@@ -55,8 +53,7 @@ class _BiometricsAuthState extends State<BiometricsAuth> {
         height: double.infinity,
         width: double.infinity,
         alignment: Alignment.center,
-        child:
-        Container(
+        child: Container(
           child: AvatarGlow(
             endRadius: 90,
             duration: Duration(seconds: 2),

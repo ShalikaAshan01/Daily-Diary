@@ -6,12 +6,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class root extends StatefulWidget {
+class Root extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _RootState();
 }
 
-class _RootState extends State<root> {
+class _RootState extends State<Root> {
   bool _biometrics;
 
   @override
@@ -29,8 +29,7 @@ class _RootState extends State<root> {
     if (_biometrics == null)
       return Scaffold(
         backgroundColor: Color(0xFF233355),
-        body:
-        Container(
+        body: Container(
           child: AvatarGlow(
             endRadius: 90,
             duration: Duration(seconds: 2),

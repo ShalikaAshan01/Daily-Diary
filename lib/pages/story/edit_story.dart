@@ -16,7 +16,6 @@ class EditStory extends StatefulWidget {
 
 class _EditStoryState extends State<EditStory> {
   Color _color1 = Color(0xFF233355);
-  Color _color2 = Color(0xFF29395A);
   Color _color3 = Color(0xFF294261);
   bool isSaving = false;
   TextEditingController _storyEditingController = TextEditingController();

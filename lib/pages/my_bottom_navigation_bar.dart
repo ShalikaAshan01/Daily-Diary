@@ -30,6 +30,7 @@ class _BottomNavigationBarState extends State<MyBottomNavigationBar> {
     });
   }
 
+  // ignore: missing_return
   Future<bool> _onWillPop() {
     if (_selectedIndex != 0) {
       setState(() {
@@ -38,20 +39,21 @@ class _BottomNavigationBarState extends State<MyBottomNavigationBar> {
     } else {
       return showDialog(
           context: context,
-          builder: (context) => MyAlert(
-            title: "Are you sure?",
-            content: "Are you certain that you want to close?",
-            actions: <Widget>[
-              FlatButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: Text('NO'),
-              ),
-              new FlatButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: Text('YES'),
-              ),
-            ],
-          )) ??
+          builder: (context) =>
+              MyAlert(
+                title: "Are you sure?",
+                content: "Are you certain that you want to close?",
+                actions: <Widget>[
+                  FlatButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: Text('NO'),
+                  ),
+                  new FlatButton(
+                    onPressed: () => Navigator.of(context).pop(true),
+                    child: Text('YES'),
+                  ),
+                ],
+              )) ??
           false;
     }
   }

@@ -33,7 +33,8 @@ Future<FirebaseUser> signIn(AuthCredential credential) async {
   await userControl.onSignIn(user.uid, user.displayName);
   return user;
 }
-Future<FirebaseUser> getCurrentUser() async{
+
+Future<FirebaseUser> getCurrentUser() async {
   FirebaseAuth _auth = FirebaseAuth.instance;
   return await _auth.currentUser();
 }
