@@ -1,16 +1,57 @@
-# daily_diary
+# Daily Diary
 
 A new Flutter project.
 
-## Getting Started
+## Building and running the Project
 
-This project is a starting point for a Flutter application.
+You need to create your own firebase project and add the config files in order to build the project
+In order to build the project.After  adding firebase,  
 
-A few resources to get you started if this is your first Flutter project:
+1. `flutter pub get`  
+2. `flutter run`
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+##Packages Used
+* [shared_preferences](https://pub.dev/packages/shared_preferences)
+* [avatar_glow](https://pub.dev/packages/avatar_glow)
+* [font_awesome_flutter](https://pub.dev/packages/font_awesome_flutter)
+* [flutter_datetime_picker](https://pub.dev/packages/flutter_datetime_picker)
+* [flutter_calendar_carousel](https://pub.dev/packages/flutter_calendar_carousel)
+* [intl](https://pub.dev/packages/intl)
+* [charts_flutter](https://pub.dev/packages/charts_flutter)
+* [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons)
+* [flutter_local_notifications](https://pub.dev/packages/flutter_local_notifications)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+**Packages for Firebase and Authentication**
+
+* [firebase_core](https://pub.dev/packages/firebase_core)
+* [firebase_analytics](https://pub.dev/packages/firebase_analytics)
+* [firebase_auth](https://pub.dev/packages/firebase_auth)
+* [cloud_firestore](https://pub.dev/packages/cloud_firestore)
+* [google_sign_in](https://pub.dev/packages/google_sign_in)
+* [flutter_facebook_login](https://pub.dev/packages/flutter_facebook_login)
+* [local_auth](https://pub.dev/packages/local_auth)
+
+## Credit
+
+App design from **[Reflectly](https://reflectly.app/).**
+
+## Screenshots
+
+<img src="screenshots/images/01.jpg" width="120"/>
+<img src="screenshots/images/02.jpg" width="120"/>
+<img src="screenshots/images/03.jpg" width="120"/>
+<img src="screenshots/images/04.jpg" width="120"/>
+<img src="screenshots/images/05.jpg" width="120"/>
+<img src="screenshots/images/06.jpg" width="120"/>
+<img src="screenshots/images/07.jpg" width="120"/>
+<img src="screenshots/images/08.jpg" width="120"/>
+<img src="screenshots/images/09.jpg" width="120"/>
+<img src="screenshots/images/10.jpg" width="120"/>
+<img src="screenshots/images/12.jpg" width="120"/>
+<img src="screenshots/images/13.jpg" width="120"/>
+<img src="screenshots/images/14a.jpg" width="120"/>
+<img src="screenshots/images/15.jpg" width="120"/>
+<img src="screenshots/images/16.jpg" width="120"/>
+<img src="screenshots/images/17.jpg" width="120"/>
+<img src="screenshots/images/18.jpg" width="120"/>
+<img src="screenshots/images/19.jpg" width="120"/>
