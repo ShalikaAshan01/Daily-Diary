@@ -33,7 +33,9 @@ In order to build the project.After  adding firebase,
 
 ## Credit
 
-App design from **[Reflectly](https://reflectly.app/).**
+* App design from **[Reflectly](https://reflectly.app/).**
+* Images provided by **[Pexel](https://www.pexels.com/).**
+* Some Icons from **[FlatIcon](https://www.flaticon.com/)**
 
 ## Screenshots
 
