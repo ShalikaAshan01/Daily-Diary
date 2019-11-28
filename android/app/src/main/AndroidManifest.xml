@@ -12,7 +12,7 @@
 
     <application
             android:name="io.flutter.app.FlutterApplication"
-            android:label="daily_diary"
+            android:label="Daily Diary"
             android:icon="@mipmap/launcher_icon">
         <activity
                 android:name=".MainActivity"
