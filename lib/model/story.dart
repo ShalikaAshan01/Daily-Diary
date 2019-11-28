@@ -35,7 +35,7 @@ class Story {
     this.feeling = map['feelings'];
     this.image = map['image'] != null
         ? map['image']
-        : "https://images.pexels.com/photos/1633413/pexels-photo-1633413.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
+        : "https://images.pexels.com/photos/55787/pexels-photo-55787.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
     this.favourite = map['favourite'];
   }
 }
