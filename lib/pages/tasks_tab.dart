@@ -1,3 +1,4 @@
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:daily_diary/controllers/story_controller.dart';
 import 'package:daily_diary/controllers/user_control.dart';
@@ -6,6 +7,7 @@ import 'package:daily_diary/pages/story/add_stories.dart';
 import 'package:daily_diary/pages/story/show_story.dart';
 import 'package:daily_diary/pages/story/show_story_without.dart';
 import 'package:daily_diary/widgets/common_widgets.dart';
+import 'package:daily_diary/widgets/logo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
@@ -21,9 +23,10 @@ class TasksTab extends StatefulWidget {
 class _TaskTabState extends State<TasksTab> {
   List<Story> _stories;
   List<String> _dates;
-  var formatter = DateFormat('yyyy-MM-dd');
+  var _formatter = DateFormat('yyyy-MM-dd');
   Color _color1 = Color(0xFF233355);
-  String userId = "";
+  String _userId = "";
+  bool _loading = true;
   List<String> _months = [
     "January",
     "February",
@@ -43,12 +46,17 @@ class _TaskTabState extends State<TasksTab> {
   var _formatter2 = DateFormat('MMM dd');
   double _monthlyRate = 0;
   double _weeklyRate = 0;
+  List<Rate> _weeklyRates = List();
+  List<Rate> _monthlyRates = List();
+  List<Rate> _weeklyPie = List();
+  List<Rate> _monthlyPie = List();
+  static bool _weekly = true;
 
-  getStories() {
+  _getStories() {
     StoryController().getStoriesAsList().then((List<Story> story) {
       List<String> dateTime = List();
       for (int i = 0; i < story.length; i++) {
-        dateTime.add(formatter.format(story[i].date));
+        dateTime.add(_formatter.format(story[i].date));
       }
       if (mounted)
         setState(() {
@@ -64,7 +72,7 @@ class _TaskTabState extends State<TasksTab> {
     UserControl().getCurrentUser().then((FirebaseUser user) {
       if (mounted)
         setState(() {
-          userId = user.uid;
+          _userId = user.uid;
         });
     });
     _pageController();
@@ -77,10 +85,50 @@ class _TaskTabState extends State<TasksTab> {
     if (_stories != null) {
       length = _stories.length;
     }
-    getStories();
+    _getStories();
     return Scaffold(
       backgroundColor: _color1,
-      body: length != 0 ? ListView(
+      body: length != 0 ?
+      _body() : Center(child: Text(
+        "Looks like you don't have any stories", style: TextStyle(fontSize: 20),
+        textAlign: TextAlign.center,),),
+    );
+  }
+
+  Widget _body() {
+    if (_loading)
+      return Container(
+        width: double.infinity,
+        height: double.infinity,
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            AvatarGlow(
+              endRadius: 90,
+              duration: Duration(milliseconds: 500),
+              glowColor: Colors.white24,
+              repeat: true,
+              repeatPauseDuration: Duration(seconds: 2),
+              startDelay: Duration(seconds: 1),
+              child: Material(
+                  elevation: 8.0,
+                  shape: CircleBorder(),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    child: Logo(size: 140),
+                    radius: 40.0,
+                  )),
+            ),
+            Text(
+              "please give me a moment to collect my thoughts...".toUpperCase(),
+              textAlign: TextAlign.center,)
+          ],
+        ),
+      );
+    else
+      return ListView(
         children: <Widget>[
           _chartBuild(context),
           Container(
@@ -103,17 +151,8 @@ class _TaskTabState extends State<TasksTab> {
           ),
           Container(height: 600, child: _favouriteBuilder()),
         ],
-      ) : Center(child: Text(
-        "Looks like you don't have any stories", style: TextStyle(fontSize: 20),
-        textAlign: TextAlign.center,),),
-    );
+      );
   }
-
-  List<Rate> _weeklyRates = List();
-  List<Rate> _monthlyRates = List();
-  List<Rate> _weeklyPie = List();
-  List<Rate> _monthlyPie = List();
-  static bool _weekly = true;
 
   void _setChartValues() async {
     List<int> feelings = await StoryController().getRate();
@@ -150,6 +189,7 @@ class _TaskTabState extends State<TasksTab> {
         _monthlyPie = tempPei2;
         _monthlyRate = tempMonth / 31.0;
         _weeklyRate = tempWeek / 7.0;
+        _loading = false;
       });
   }
 
@@ -379,15 +419,15 @@ class _TaskTabState extends State<TasksTab> {
         onDayLongPressed: (DateTime date) {},
         onDayPressed: (DateTime date, List<Event> events) {
           if (_dates != null) {
-            int index = _dates.indexOf(formatter.format(date));
+            int index = _dates.indexOf(_formatter.format(date));
             if (index != -1) {
               Navigator.push(
                   context,
                   CommonWidgets().slideUpNavigation(ShowStoryWithout(
                     story: _stories[index],
                   )));
-            } else if (formatter.format(date) ==
-                formatter.format(DateTime.now())) {
+            } else if (_formatter.format(date) ==
+                _formatter.format(DateTime.now())) {
               print("gsegesg");
             } else if (date.isBefore(DateTime.now())) {
               Navigator.push(
@@ -423,7 +463,7 @@ class _TaskTabState extends State<TasksTab> {
           /// This way you can build custom containers for specific days only, leaving rest as default.
 
           if (_dates != null) {
-            if (_dates.contains(formatter.format(day))) {
+            if (_dates.contains(_formatter.format(day))) {
               return Center(
                 child: Column(
                   children: <Widget>[
@@ -461,7 +501,7 @@ class _TaskTabState extends State<TasksTab> {
 
   Widget _favouriteBuilder() {
     return StreamBuilder(
-      stream: StoryController().getFavourites(userId),
+      stream: StoryController().getFavourites(_userId),
       builder: (context, snapshot) {
         int length = 0;
         List stories;
