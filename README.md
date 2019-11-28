@@ -37,21 +37,4 @@ App design from **[Reflectly](https://reflectly.app/).**
 
 ## Screenshots
 
-<img src="screenshots/images/01.jpg" width="120"/>
-<img src="screenshots/images/02.jpg" width="120"/>
-<img src="screenshots/images/03.jpg" width="120"/>
-<img src="screenshots/images/04.jpg" width="120"/>
-<img src="screenshots/images/05.jpg" width="120"/>
-<img src="screenshots/images/06.jpg" width="120"/>
-<img src="screenshots/images/07.jpg" width="120"/>
-<img src="screenshots/images/08.jpg" width="120"/>
-<img src="screenshots/images/09.jpg" width="120"/>
-<img src="screenshots/images/10.jpg" width="120"/>
-<img src="screenshots/images/12.jpg" width="120"/>
-<img src="screenshots/images/13.jpg" width="120"/>
-<img src="screenshots/images/14a.jpg" width="120"/>
-<img src="screenshots/images/15.jpg" width="120"/>
-<img src="screenshots/images/16.jpg" width="120"/>
-<img src="screenshots/images/17.jpg" width="120"/>
-<img src="screenshots/images/18.jpg" width="120"/>
-<img src="screenshots/images/19.jpg" width="120"/>
+<img src="screenshots/images/01.jpg" height="480px"/>&nbsp;<img src="screenshots/images/02.jpg" height="480px"/>&nbsp;<img src="screenshots/images/03.jpg" height="480px"/>&nbsp;<img src="screenshots/images/04.jpg" height="480px"/>&nbsp;<img src="screenshots/images/05.jpg" height="480px"/>&nbsp;<img src="screenshots/images/06.jpg" height="480px"/>&nbsp;<img src="screenshots/images/07.jpg" height="480px"/>&nbsp;<img src="screenshots/images/08.jpg" height="480px"/>&nbsp;<img src="screenshots/images/09.jpg" height="480px"/>&nbsp;<img src="screenshots/images/10.jpg" height="480px"/>&nbsp;<img src="screenshots/images/12.jpg" height="480px"/>&nbsp;<img src="screenshots/images/13.jpg" height="480px"/>&nbsp;<img src="screenshots/images/14a.jpg" height="480px"/>&nbsp;<img src="screenshots/images/15.jpg" height="480px"/>&nbsp;<img src="screenshots/images/16.jpg" height="480px"/>&nbsp;<img src="screenshots/images/17.jpg" height="480px"/>&nbsp;<img src="screenshots/images/18.jpg" height="480px"/>&nbsp;<img src="screenshots/images/19.jpg" height="480px"/>
