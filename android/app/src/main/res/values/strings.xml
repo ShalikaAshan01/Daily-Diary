@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Daily Diary</string>
+    <string name="facebook_app_id">962878117443992</string>
+    <string name="fb_login_protocol_scheme">fb962878117443992</string>
+</resources>
