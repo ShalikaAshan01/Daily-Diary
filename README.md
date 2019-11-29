@@ -10,7 +10,7 @@ In order to build the project.After  adding firebase,
 1. `flutter pub get`  
 2. `flutter run`
 
-##Packages Used
+## Packages Used
 * [shared_preferences](https://pub.dev/packages/shared_preferences)
 * [avatar_glow](https://pub.dev/packages/avatar_glow)
 * [font_awesome_flutter](https://pub.dev/packages/font_awesome_flutter)
