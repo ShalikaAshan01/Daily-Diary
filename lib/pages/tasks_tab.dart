@@ -549,7 +549,7 @@ class _TaskTabState extends State<TasksTab> {
 
         return PageView.builder(
           controller: _ctrl,
-          itemCount: length,
+          itemCount: length == 0 ? length : length + 1,
           onPageChanged: (value) {
             if (mounted)
               setState(() {
@@ -558,6 +558,11 @@ class _TaskTabState extends State<TasksTab> {
           },
           itemBuilder: (context, int currentIdx) {
             bool active = currentIdx == _currentPage;
+
+            if (length != 0 && currentIdx == length) {
+              return Container();
+            }
+
             Story story = Story.fromMapObject(stories[currentIdx].data);
             story.id = stories[currentIdx].reference.documentID;
             return _customCards(story, active);
