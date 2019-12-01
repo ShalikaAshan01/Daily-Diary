@@ -126,13 +126,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                           length = 0;
                         }
                         return PageView.builder(
+                          physics: AlwaysScrollableScrollPhysics(),
                           controller: _ctrl,
-                          itemCount: length + 1,
+                          itemCount: length != 0 ? length + 2 : length + 1,
                           onPageChanged: (value) {
-                            if (mounted)
-                              setState(() {
-                                _currentPage = value;
-                              });
+                            setState(() {
+                              _currentPage = value;
+                            });
                           },
                           itemBuilder: (context, int currentIdx) {
                             bool active = currentIdx == _currentPage;
@@ -140,6 +140,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                             if (currentIdx == 0) {
                               return _firstPage(active);
                             }
+                            if (length != 0 && currentIdx == length + 1) {
+                              return Container(
+                              );
+                            }
+
                             Story story =
                             Story.fromMapObject(stories[currentIdx - 1].data);
                             story.id = stories[currentIdx - 1].reference
@@ -380,7 +385,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     _ctrl = PageController(
       initialPage: _currentPage,
       viewportFraction: 0.8,
-    );
+    )
+      ..addListener(() {
+        setState(() {});
+      });
   }
 
   void _animationControl() {
